@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+# sprite-push: Push local file or directory to a sprite
+# Usage: sprite-push <local-path> <remote-path> [sprite-name]
+
+set -euo pipefail
+
+usage() {
+    echo "Usage: sprite-push <local-path> <remote-path> [sprite-name]"
+    echo ""
+    echo "Examples:"
+    echo "  sprite-push ./file.txt /home/sprite/file.txt"
+    echo "  sprite-push ./mydir /home/sprite/mydir"
+    echo "  sprite-push ./file.txt /tmp/file.txt ember-red-hawk"
+    exit 1
+}
+
+[[ $# -lt 2 ]] && usage
+
+LOCAL_PATH="$1"
+REMOTE_PATH="$2"
+SPRITE="${3:-}"
+
+SPRITE_ARGS=()
+[[ -n "$SPRITE" ]] && SPRITE_ARGS=(-s "$SPRITE")
+
+if [[ ! -e "$LOCAL_PATH" ]]; then
+    echo "Error: $LOCAL_PATH does not exist" >&2
+    exit 1
+fi
+
+if [[ -d "$LOCAL_PATH" ]]; then
+    echo "Pushing directory: $LOCAL_PATH -> $REMOTE_PATH"
+    tar czf - -C "$(dirname "$LOCAL_PATH")" "$(basename "$LOCAL_PATH")" | \
+        sprite exec "${SPRITE_ARGS[@]}" bash -c "mkdir -p '$REMOTE_PATH' && tar xzf - -C '$REMOTE_PATH' --strip-components=1"
+else
+    echo "Pushing file: $LOCAL_PATH -> $REMOTE_PATH"
+    REMOTE_DIR=$(dirname "$REMOTE_PATH")
+    sprite exec "${SPRITE_ARGS[@]}" bash -c "mkdir -p '$REMOTE_DIR' && cat > '$REMOTE_PATH'" < "$LOCAL_PATH"
+fi
+
+echo "Done."

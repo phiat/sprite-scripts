@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+# sprite-pull: Pull file or directory from a sprite
+# Usage: sprite-pull <remote-path> <local-path> [sprite-name]
+
+set -euo pipefail
+
+usage() {
+    echo "Usage: sprite-pull <remote-path> <local-path> [sprite-name]"
+    echo ""
+    echo "Examples:"
+    echo "  sprite-pull /home/sprite/file.txt ./file.txt"
+    echo "  sprite-pull /home/sprite/mydir ./mydir"
+    echo "  sprite-pull /tmp/file.txt ./file.txt ember-red-hawk"
+    exit 1
+}
+
+[[ $# -lt 2 ]] && usage
+
+REMOTE_PATH="$1"
+LOCAL_PATH="$2"
+SPRITE="${3:-}"
+
+SPRITE_ARGS=()
+[[ -n "$SPRITE" ]] && SPRITE_ARGS=(-s "$SPRITE")
+
+IS_DIR=$(sprite exec "${SPRITE_ARGS[@]}" bash -c "[ -d '$REMOTE_PATH' ] && echo 'dir' || echo 'file'")
+
+if [[ "$IS_DIR" == "dir" ]]; then
+    echo "Pulling directory: $REMOTE_PATH -> $LOCAL_PATH"
+    mkdir -p "$LOCAL_PATH"
+    sprite exec "${SPRITE_ARGS[@]}" tar czf - -C "$REMOTE_PATH" . | \
+        tar xzf - -C "$LOCAL_PATH"
+else
+    echo "Pulling file: $REMOTE_PATH -> $LOCAL_PATH"
+    mkdir -p "$(dirname "$LOCAL_PATH")"
+    sprite exec "${SPRITE_ARGS[@]}" cat "$REMOTE_PATH" > "$LOCAL_PATH"
+fi
+
+echo "Done."

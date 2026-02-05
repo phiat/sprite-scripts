@@ -1,0 +1,271 @@
+#!/usr/bin/env bash
+# sprite-launch: Create and configure a sprite with coding agent, git, beads
+# Usage: sprite-launch [--dry-run] [--no-checkpoint] <sprite-name> [plan-file]
+
+set -euo pipefail
+
+# ============================================================
+# Configuration
+# ============================================================
+SPRITE_TOKEN="${SPRITE_TOKEN:-}"
+AGENT="${AGENT:-claude}"                  # "claude" or "opencode"
+CLAUDE_AUTH="${CLAUDE_AUTH:-subscription}" # "subscription" or "apikey"
+ANTHROPIC_API_KEY="${ANTHROPIC_API_KEY:-}"
+MODEL="${MODEL:-}"
+CHECKPOINT_INTERVAL="${CHECKPOINT_INTERVAL:-300}" # seconds (default: 5 min)
+
+# Source .env if present
+ENV_FILE="${ENV_FILE:-./.env}"
+if [[ -f "$ENV_FILE" ]]; then
+    # shellcheck disable=SC1090
+    source "$ENV_FILE"
+    SPRITE_TOKEN="${SPRITES_TOKEN:-$SPRITE_TOKEN}"
+fi
+# ============================================================
+
+usage() {
+    cat <<'EOF'
+Usage: sprite-launch [--dry-run] [--no-checkpoint] <sprite-name> [plan-file]
+
+Options:
+  --dry-run          Show what would happen without executing
+  --no-checkpoint    Disable auto-checkpointing
+
+Environment variables:
+  ENV_FILE               Path to .env file (default: ./.env)
+  SPRITE_TOKEN           sprites.dev API token (or SPRITES_TOKEN in .env)
+  AGENT                  "claude" (default) or "opencode"
+  CLAUDE_AUTH            "subscription" (default) or "apikey"
+  MODEL                  Model override (see below)
+  CHECKPOINT_INTERVAL    Seconds between checkpoints (default: 300 = 5min)
+
+Model examples:
+  Claude:   MODEL=opus, MODEL=sonnet, MODEL=haiku
+  OpenCode: MODEL=opencode/big-pickle  (free, default)
+            MODEL=groq/llama-3.3-70b-versatile  (free w/ GROQ_API_KEY)
+            MODEL=openai/gpt-4o
+            MODEL=anthropic/claude-sonnet-4-20250514
+            MODEL=google/gemini-2.5-pro
+
+Examples:
+  ./sprite-launch my-project plan.md
+  ./sprite-launch --dry-run my-project plan.md
+  AGENT=opencode ./sprite-launch my-project plan.md
+  AGENT=claude MODEL=sonnet ./sprite-launch dev plan.md
+  CHECKPOINT_INTERVAL=600 ./sprite-launch my-project plan.md
+EOF
+    exit 1
+}
+
+# ============================================================
+# Parse flags
+# ============================================================
+DRY_RUN=false
+CHECKPOINTING=true
+
+while [[ $# -gt 0 && "$1" == --* ]]; do
+    case "$1" in
+        --dry-run)       DRY_RUN=true; shift ;;
+        --no-checkpoint) CHECKPOINTING=false; shift ;;
+        --help|-h)       usage ;;
+        *)               echo "Unknown option: $1"; usage ;;
+    esac
+done
+
+[[ $# -lt 1 ]] && usage
+
+SPRITE="$1"
+PLAN_FILE="${2:-}"
+
+# ============================================================
+# Helpers
+# ============================================================
+
+# Run command in sprite with bash (not sh — avoids POSIX pitfalls)
+sx() {
+    if [[ "$DRY_RUN" == true ]]; then
+        echo "  [dry-run] sprite exec -s $SPRITE bash -c \"$1\""
+    else
+        sprite exec -s "$SPRITE" bash -c "$1"
+    fi
+}
+
+# Push local file to sprite
+push_file() {
+    local src="$1" dest="$2"
+    if [[ "$DRY_RUN" == true ]]; then
+        echo "  [dry-run] push $src -> sprite:$dest"
+    else
+        sprite exec -s "$SPRITE" bash -c "mkdir -p '$(dirname "$dest")'"
+        sprite exec -s "$SPRITE" bash -c "cat > '$dest'" < "$src"
+    fi
+}
+
+# Auto-checkpoint loop (runs in background)
+CHECKPOINT_PID=""
+start_checkpointing() {
+    if [[ "$CHECKPOINTING" != true ]]; then
+        return
+    fi
+    (
+        while true; do
+            sleep "$CHECKPOINT_INTERVAL"
+            echo "[checkpoint] Creating checkpoint at $(date '+%H:%M:%S')..."
+            sprite checkpoint create -s "$SPRITE" 2>/dev/null && \
+                echo "[checkpoint] Done." || \
+                echo "[checkpoint] Failed (non-fatal)."
+        done
+    ) &
+    CHECKPOINT_PID=$!
+    echo "Auto-checkpointing every ${CHECKPOINT_INTERVAL}s (pid: $CHECKPOINT_PID)"
+}
+
+stop_checkpointing() {
+    if [[ -n "$CHECKPOINT_PID" ]]; then
+        kill "$CHECKPOINT_PID" 2>/dev/null || true
+        wait "$CHECKPOINT_PID" 2>/dev/null || true
+    fi
+}
+
+trap stop_checkpointing EXIT
+
+# ============================================================
+# 1. Check/install sprite CLI
+# ============================================================
+if ! command -v sprite &>/dev/null; then
+    if [[ "$DRY_RUN" == true ]]; then
+        echo "  [dry-run] Would install sprite CLI"
+    else
+        echo "Installing sprite CLI..."
+        curl -fsSL https://sprites.dev/install.sh | sh
+        export PATH="$HOME/.local/bin:$PATH"
+    fi
+fi
+
+# ============================================================
+# 2. Auth sprite (non-interactive if token provided)
+# ============================================================
+if [[ -n "$SPRITE_TOKEN" ]]; then
+    echo "Authenticating sprite with token..."
+    if [[ "$DRY_RUN" != true ]]; then
+        sprite auth setup --token "$SPRITE_TOKEN"
+    fi
+else
+    echo "No SPRITE_TOKEN set. Running interactive login..."
+    if [[ "$DRY_RUN" != true ]]; then
+        sprite login
+    fi
+fi
+
+# ============================================================
+# 3. Create sprite (or use existing)
+# ============================================================
+if [[ "$DRY_RUN" == true ]]; then
+    echo "  [dry-run] Would create or reuse sprite '$SPRITE'"
+elif sprite ls 2>/dev/null | grep -qw "$SPRITE"; then
+    echo "Sprite '$SPRITE' already exists, using it."
+else
+    echo "Creating sprite: $SPRITE"
+    sprite create -skip-console "$SPRITE"
+fi
+
+# ============================================================
+# 4. Push .env to sprite
+# ============================================================
+if [[ -f "$ENV_FILE" ]]; then
+    echo "Pushing $ENV_FILE..."
+    push_file "$ENV_FILE" /home/sprite/.env
+fi
+
+# ============================================================
+# 5. Push plan file if provided
+# ============================================================
+if [[ -n "$PLAN_FILE" && -f "$PLAN_FILE" ]]; then
+    echo "Pushing $PLAN_FILE..."
+    push_file "$PLAN_FILE" /home/sprite/plan.md
+fi
+
+# ============================================================
+# 6. Setup git + beads
+# ============================================================
+echo "Initializing git..."
+sx "cd /home/sprite && git init -b main 2>/dev/null || true"
+
+echo "Installing beads..."
+sx "curl -fsSL https://raw.githubusercontent.com/steveyegge/beads/main/scripts/install.sh | bash"
+
+# ============================================================
+# 7. Install and auth coding agent
+# ============================================================
+if [[ "$AGENT" == "claude" ]]; then
+    echo "Setting up claude..."
+    sx "command -v claude >/dev/null 2>&1 || npm install -g @anthropic-ai/claude-code"
+
+    if [[ "$CLAUDE_AUTH" == "subscription" ]]; then
+        if [[ -f "$HOME/.claude/.credentials.json" ]]; then
+            echo "Copying claude subscription credentials..."
+            push_file "$HOME/.claude/.credentials.json" /home/sprite/.claude/.credentials.json
+            sx "chmod 600 ~/.claude/.credentials.json"
+        else
+            echo "ERROR: ~/.claude/.credentials.json not found"
+            echo "Run 'claude' locally first to authenticate, then re-run this script."
+            exit 1
+        fi
+    elif [[ "$CLAUDE_AUTH" == "apikey" && -n "$ANTHROPIC_API_KEY" ]]; then
+        echo "Setting ANTHROPIC_API_KEY in sprite..."
+        sx "grep -q ANTHROPIC_API_KEY ~/.bashrc 2>/dev/null || echo 'export ANTHROPIC_API_KEY=\"$ANTHROPIC_API_KEY\"' >> ~/.bashrc"
+    else
+        echo "ERROR: No valid claude auth configured"
+        echo "Set CLAUDE_AUTH=subscription (default) or CLAUDE_AUTH=apikey with ANTHROPIC_API_KEY"
+        exit 1
+    fi
+
+elif [[ "$AGENT" == "opencode" ]]; then
+    echo "Setting up opencode..."
+    sx "[ -x ~/.opencode/bin/opencode ] || curl -fsSL https://opencode.ai/install | bash"
+    sx "grep -q 'source.*\.env' ~/.bashrc 2>/dev/null || echo '[ -f /home/sprite/.env ] && set -a && source /home/sprite/.env && set +a' >> ~/.bashrc"
+else
+    echo "ERROR: Unknown AGENT '$AGENT'. Use 'claude' or 'opencode'."
+    exit 1
+fi
+
+# ============================================================
+# 8. Launch agent with plan (or open console)
+# ============================================================
+echo ""
+echo "=========================================="
+echo "Sprite '$SPRITE' is ready!"
+echo "Agent: $AGENT${MODEL:+ (model: $MODEL)}"
+[[ "$CHECKPOINTING" == true ]] && echo "Checkpointing: every ${CHECKPOINT_INTERVAL}s"
+echo "=========================================="
+
+if [[ "$DRY_RUN" == true ]]; then
+    echo ""
+    echo "[dry-run] Would launch $AGENT with plan. No changes were made."
+    exit 0
+fi
+
+if [[ -n "$PLAN_FILE" ]]; then
+    # Start auto-checkpointing before agent runs
+    start_checkpointing
+
+    echo "Launching $AGENT with plan..."
+
+    if [[ "$AGENT" == "claude" ]]; then
+        MODEL_FLAG=""
+        [[ -n "$MODEL" ]] && MODEL_FLAG="--model $MODEL"
+        sx "cd /home/sprite && claude $MODEL_FLAG -p 'read plan.md and complete the plan please'"
+
+    elif [[ "$AGENT" == "opencode" ]]; then
+        OC_MODEL="${MODEL:-opencode/big-pickle}"
+        sx "set -a && source /home/sprite/.env 2>/dev/null && set +a && cd /home/sprite && ~/.opencode/bin/opencode run -m $OC_MODEL 'read plan.md and complete the plan please'"
+    fi
+
+    # Final checkpoint after agent completes
+    stop_checkpointing
+    echo "Creating final checkpoint..."
+    sprite checkpoint create -s "$SPRITE" 2>/dev/null && echo "Final checkpoint saved." || echo "Final checkpoint failed (non-fatal)."
+else
+    echo "Opening console..."
+    sprite console -s "$SPRITE"
+fi

@@ -1,0 +1,78 @@
+#!/usr/bin/env bash
+# sprite-watch: Poll a sprite's beads tracker task for progress
+# Usage: sprite-watch <sprite-name> [task-id] [poll-interval]
+
+set -euo pipefail
+
+usage() {
+    cat <<'EOF'
+Usage: sprite-watch <sprite-name> [task-id] [poll-interval]
+
+Arguments:
+  sprite-name     Name of the sprite to watch
+  task-id         Beads task ID to track (default: auto-detect first open critical task)
+  poll-interval   Seconds between polls (default: 30)
+
+Examples:
+  sprite-watch ember-red-hawk
+  sprite-watch ember-red-hawk CRM-1
+  sprite-watch ember-red-hawk CRM-1 60
+EOF
+    exit 1
+}
+
+[[ $# -lt 1 ]] && usage
+
+SPRITE="$1"
+TASK_ID="${2:-}"
+POLL_INTERVAL="${3:-30}"
+
+sx() {
+    sprite exec -s "$SPRITE" bash -c "$1" 2>/dev/null
+}
+
+# Auto-detect tracker task if not specified
+if [[ -z "$TASK_ID" ]]; then
+    echo "Detecting tracker task..."
+    TASK_ID=$(sx "cd /home/sprite && bd list --priority critical 2>/dev/null | head -1 | awk '{print \$1}'" || true)
+    if [[ -z "$TASK_ID" ]]; then
+        echo "No critical task found. Falling back to first open task..."
+        TASK_ID=$(sx "cd /home/sprite && bd list 2>/dev/null | head -1 | awk '{print \$1}'" || true)
+    fi
+    if [[ -z "$TASK_ID" ]]; then
+        echo "ERROR: No beads tasks found on sprite '$SPRITE'"
+        echo "Specify a task ID manually: sprite-watch $SPRITE <task-id>"
+        exit 1
+    fi
+    echo "Tracking task: $TASK_ID"
+fi
+
+echo "Watching sprite '$SPRITE' task '$TASK_ID' (every ${POLL_INTERVAL}s)"
+echo "Press Ctrl+C to stop"
+echo ""
+
+while true; do
+    clear
+    echo "=== sprite-watch: $SPRITE / $TASK_ID === $(date '+%H:%M:%S') ==="
+    echo ""
+
+    # Show task status
+    sx "cd /home/sprite && bd show $TASK_ID 2>/dev/null" || echo "(could not read task)"
+    echo ""
+
+    # Show recent comments
+    echo "--- Recent updates ---"
+    sx "cd /home/sprite && bd comments $TASK_ID 2>/dev/null | tail -8" || echo "(no comments)"
+    echo ""
+
+    # Check if done
+    STATUS=$(sx "cd /home/sprite && bd show $TASK_ID 2>/dev/null | grep -i status" || true)
+    if echo "$STATUS" | grep -qi "closed\|done\|completed"; then
+        echo "=========================================="
+        echo "PROJECT COMPLETE"
+        echo "=========================================="
+        break
+    fi
+
+    sleep "$POLL_INTERVAL"
+done
