@@ -120,3 +120,9 @@ Use `sprite-watch` from your host to poll the agent's progress via beads.
 - [sprites.dev](https://sprites.dev) account and CLI
 - For Claude agent: Claude subscription or Anthropic API key
 - For OpenCode agent: nothing (free models available), or API keys for premium models
+
+## Links
+
+- [sprites.dev docs](https://docs.sprites.dev/)
+- [beads - git-backed issue tracker](https://github.com/steveyegge/beads)
+- [OpenCode docs](https://opencode.ai/docs)
