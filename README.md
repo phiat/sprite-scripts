@@ -2,7 +2,7 @@
 
 CLI tools for launching and managing coding agents on [sprites.dev](https://sprites.dev) cloud environments.
 
-Spin up a sprite, push your plan, launch Claude or OpenCode, and let it build while you grab coffee. Auto-checkpointing saves your work. Poll progress from your host machine via beads.
+Spin up a sprite, push your plan, launch [OpenCode](https://opencode.ai) or [Claude Code](https://docs.anthropic.com/en/docs/claude-code), and let it build while you grab coffee. Auto-checkpointing saves your work. Poll progress from your host machine via [beads](https://github.com/steveyegge/beads).
 
 ## Scripts
 
@@ -24,8 +24,68 @@ cp .env.example .env
 cp example-plan.md plan.md
 # Edit plan.md with your project spec
 
-# 3. Launch
+# 3. Launch (uses OpenCode with free models by default)
 ./sprite-launch my-project plan.md
+```
+
+That's it. No API keys needed for the default setup — OpenCode ships with free models.
+
+### Configuring OpenCode with Groq
+
+Add your Groq API key to `.env` for access to fast Llama models:
+
+```bash
+# .env
+GROQ_API_KEY="gsk_your_key_here"
+```
+
+```bash
+MODEL=groq/llama-3.3-70b-versatile ./sprite-launch my-project plan.md
+```
+
+### Configuring OpenCode with Zen
+
+[OpenCode Zen](https://opencode.ai/docs/zen/) is a curated model gateway with tested, benchmarked models optimized for coding. Pay-as-you-go pricing with team/workspace support.
+
+To use Zen models, connect inside the sprite after launch:
+
+```bash
+./sprite-launch my-project  # opens console (no plan file)
+# Inside the sprite:
+opencode                    # opens TUI
+# Type /connect, select Zen, paste your Zen API key
+# Type /models to see available Zen models
+```
+
+Or set it up non-interactively if you have a Zen API key:
+
+```bash
+# Add to .env
+OPENCODE_ZEN_API_KEY="your_zen_key_here"
+```
+
+### Configuring Claude Code
+
+To use Claude Code instead of OpenCode:
+
+**With Claude subscription (free — uses your existing plan):**
+
+```bash
+# Make sure you've run `claude` locally at least once to authenticate
+AGENT=claude ./sprite-launch my-project plan.md
+```
+
+This copies your local `~/.claude/.credentials.json` to the sprite. No API charges.
+
+**With Anthropic API key (pay-per-token):**
+
+```bash
+# Add to .env
+ANTHROPIC_API_KEY="sk-ant-your_key_here"
+```
+
+```bash
+AGENT=claude CLAUDE_AUTH=apikey MODEL=sonnet ./sprite-launch my-project plan.md
 ```
 
 ## Usage
@@ -33,15 +93,17 @@ cp example-plan.md plan.md
 ### sprite-launch
 
 ```bash
-# Claude with subscription auth (default)
+# OpenCode with free model (default)
 ./sprite-launch my-project plan.md
 
-# OpenCode with free model (no API key needed)
-AGENT=opencode ./sprite-launch my-project plan.md
+# OpenCode with Groq
+MODEL=groq/llama-3.3-70b-versatile ./sprite-launch my-project plan.md
 
-# Choose a model
+# Claude Code with subscription
+AGENT=claude ./sprite-launch my-project plan.md
+
+# Claude Code with specific model
 AGENT=claude MODEL=sonnet ./sprite-launch dev plan.md
-AGENT=opencode MODEL=groq/llama-3.3-70b-versatile ./sprite-launch dev plan.md
 
 # Preview without executing
 ./sprite-launch --dry-run my-project plan.md
@@ -87,21 +149,27 @@ CHECKPOINT_INTERVAL=600 ./sprite-launch my-project plan.md
 |----------|---------|-------------|
 | `ENV_FILE` | `./.env` | Path to .env file |
 | `SPRITES_TOKEN` | | sprites.dev API token |
-| `AGENT` | `claude` | `claude` or `opencode` |
+| `AGENT` | `opencode` | `opencode` or `claude` |
 | `CLAUDE_AUTH` | `subscription` | `subscription` or `apikey` |
 | `MODEL` | | Model override |
 | `CHECKPOINT_INTERVAL` | `300` | Seconds between auto-checkpoints |
 
 ## Supported Models
 
-**Claude** (requires subscription or API key):
-`opus`, `sonnet`, `haiku`
-
-**OpenCode** (free built-in models):
+**OpenCode** (free built-in models — no API key needed):
 `opencode/big-pickle`, `opencode/glm-4.7-free`, `opencode/gpt-5-nano`, `opencode/kimi-k2.5-free`
 
-**OpenCode + API keys** (add keys to .env):
-`groq/llama-3.3-70b-versatile`, `openai/gpt-4o`, `anthropic/claude-sonnet-4-20250514`, `google/gemini-2.5-pro`
+**OpenCode + Groq** (free w/ API key):
+`groq/llama-3.3-70b-versatile`, `groq/meta-llama/llama-4-scout-17b-16e-instruct`
+
+**OpenCode + Zen** (pay-as-you-go, curated models):
+See [OpenCode Zen docs](https://opencode.ai/docs/zen/) for available models
+
+**OpenCode + other providers** (add API keys to .env):
+`openai/gpt-4o`, `anthropic/claude-sonnet-4-20250514`, `google/gemini-2.5-pro`
+
+**Claude Code** (requires subscription or API key):
+`opus`, `sonnet`, `haiku`
 
 ## How It Works
 
@@ -118,11 +186,12 @@ Use `sprite-watch` from your host to poll the agent's progress via beads.
 ## Requirements
 
 - [sprites.dev](https://sprites.dev) account and CLI
-- For Claude agent: Claude subscription or Anthropic API key
 - For OpenCode agent: nothing (free models available), or API keys for premium models
+- For Claude agent: Claude subscription or Anthropic API key
 
 ## Links
 
 - [sprites.dev docs](https://docs.sprites.dev/)
 - [beads - git-backed issue tracker](https://github.com/steveyegge/beads)
 - [OpenCode docs](https://opencode.ai/docs)
+- [OpenCode Zen](https://opencode.ai/docs/zen/)

@@ -8,7 +8,7 @@ set -euo pipefail
 # Configuration
 # ============================================================
 SPRITE_TOKEN="${SPRITE_TOKEN:-}"
-AGENT="${AGENT:-claude}"                  # "claude" or "opencode"
+AGENT="${AGENT:-opencode}"                 # "opencode" or "claude"
 CLAUDE_AUTH="${CLAUDE_AUTH:-subscription}" # "subscription" or "apikey"
 ANTHROPIC_API_KEY="${ANTHROPIC_API_KEY:-}"
 MODEL="${MODEL:-}"
@@ -34,23 +34,22 @@ Options:
 Environment variables:
   ENV_FILE               Path to .env file (default: ./.env)
   SPRITE_TOKEN           sprites.dev API token (or SPRITES_TOKEN in .env)
-  AGENT                  "claude" (default) or "opencode"
+  AGENT                  "opencode" (default) or "claude"
   CLAUDE_AUTH            "subscription" (default) or "apikey"
   MODEL                  Model override (see below)
   CHECKPOINT_INTERVAL    Seconds between checkpoints (default: 300 = 5min)
 
 Model examples:
-  Claude:   MODEL=opus, MODEL=sonnet, MODEL=haiku
   OpenCode: MODEL=opencode/big-pickle  (free, default)
             MODEL=groq/llama-3.3-70b-versatile  (free w/ GROQ_API_KEY)
             MODEL=openai/gpt-4o
-            MODEL=anthropic/claude-sonnet-4-20250514
             MODEL=google/gemini-2.5-pro
+  Claude:   MODEL=opus, MODEL=sonnet, MODEL=haiku
 
 Examples:
   ./sprite-launch my-project plan.md
   ./sprite-launch --dry-run my-project plan.md
-  AGENT=opencode ./sprite-launch my-project plan.md
+  MODEL=groq/llama-3.3-70b-versatile ./sprite-launch dev plan.md
   AGENT=claude MODEL=sonnet ./sprite-launch dev plan.md
   CHECKPOINT_INTERVAL=600 ./sprite-launch my-project plan.md
 EOF
