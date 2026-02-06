@@ -189,6 +189,19 @@ See [OpenCode Zen docs](https://opencode.ai/docs/zen/) for available models
 
 Use `sprite-watch` from your host to poll the agent's progress via beads.
 
+**Important:** Sprites are **not** automatically destroyed when the agent finishes. You are responsible for cleaning up sprites to avoid unnecessary charges.
+
+```bash
+# List running sprites
+sprite ls
+
+# Destroy a sprite when you're done
+sprite destroy my-project
+
+# Destroy all sprites (careful!)
+sprite ls | xargs -I{} sprite destroy {}
+```
+
 ## Requirements
 
 - [sprites.dev](https://sprites.dev) account and CLI
