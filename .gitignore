@@ -59,10 +59,24 @@ ports/crystal/sprite_tool
 
 # Odin
 ports/odin/sprite-tool
+ports/odin/odin
 
 # Python
 ports/python/__pycache__/
 ports/python/**/__pycache__/
+
+# Haxe
+ports/haxe/sprite-tool.hl
+ports/haxe/sprite-tool.n
+
+# Clojure
+ports/clojure/.cpcache/
+
+# Gleam crash dumps
+ports/gleam/erl_crash.dump
+
+# Misc
+ports/common-lisp/mise.toml
 
 # Test plan files (generated locally from template)
 ports/tests/*-poem-plan.md
