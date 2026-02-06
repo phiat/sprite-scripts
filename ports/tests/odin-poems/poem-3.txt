@@ -1,0 +1,9 @@
+Odin, a quiet ode to the craft of code
+You keep it simple, fast, and safe
+Your types shield memory from drift and fault
+Your ecosystem grows with crates and tools
+Compilers cheer, runtime stays calm
+Developers march forward, confident and brave
+Your clarity invites teams to build together
+Odin, you make hard problems feel doable
+Long days end with clean, confident commits

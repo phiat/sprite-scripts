@@ -1,0 +1,11 @@
+There once was a language named Odin
+Whose syntax was crisp and oddly codin'
+It checks every type
+Keeps builds and bugs in the right
+And leaves runtime fears far behind Odin
+
+There is a second quirk, a cheerful grin
+As libraries grow wide and paths win
+With tooling so fine
+It ships code on time
+And makes every coder feel at home in Odin
