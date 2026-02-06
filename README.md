@@ -212,6 +212,8 @@ sprite ls | xargs -I{} sprite destroy {}
 
 All four scripts have been ported to **26 languages** as a unified `sprite-tool` binary/script with subcommands (`launch`, `push`, `pull`, `watch`). Each port lives under `ports/<language>/` and shells out to the `sprite` CLI.
 
+All 26 ports pass build/lint checks (zero warnings, zero errors) and runtime testing (each port launched a sprite and completed a multi-file task successfully).
+
 The entire porting effort — all 26 languages — took **less than 4 hours** using Claude Code with parallel agents.
 
 ![Porting session part 1](porting-1.png)
