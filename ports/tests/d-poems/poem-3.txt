@@ -1,0 +1,14 @@
+O D, you elegant beast of systems and speed,
+Where C++ meets Python in a passionate creed.
+Your @safe attributes guard against memory's plight,
+While ranges and algorithms make code feel so right.
+
+From Walter Bright's vision to Andrei's design,
+You compile to machine code, so pure and so fine.
+Your mixins and templates bend logic to will,
+Your modules import with such graceful skill.
+
+Though some call you niche, misunderstood by the crowd,
+Your performance and safety make developers proud.
+In the realm of native tongues, you stand tall and true,
+D programming language, we salute you.

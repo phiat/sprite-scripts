@@ -63,3 +63,6 @@ ports/odin/sprite-tool
 # Python
 ports/python/__pycache__/
 ports/python/**/__pycache__/
+
+# Test plan files (generated locally from template)
+ports/tests/*-poem-plan.md

@@ -1,0 +1,11 @@
+There once was a language called Gleam,
+With functional programming as its theme.
+No null values in sight,
+Just pattern matches so bright,
+Making concurrency quite a dream.
+
+Its types flow like a magical stream,
+While the BEAM VM keeps the code clean.
+With Erlang beneath,
+It runs without grief,
+A modern functional coding scheme.

@@ -29,7 +29,12 @@
       (.redirectInput pb (File. ^String stdin-file)))
     (when inherit-io
       (when-not capture
-        (.inheritIO pb)))
+        (if stdin-file
+          ;; inheritIO would override stdin redirect, so only inherit stdout/stderr
+          (doto pb
+            (.redirectOutput ProcessBuilder$Redirect/INHERIT)
+            (.redirectError ProcessBuilder$Redirect/INHERIT))
+          (.inheritIO pb))))
     (when stdin-pipe
       ;; stdin-pipe is an InputStream from another process
       ;; We handle this after start

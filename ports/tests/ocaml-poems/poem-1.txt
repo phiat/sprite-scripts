@@ -1,0 +1,3 @@
+Functional code flows
+OCaml types keep errors low
+Elegant patterns shine

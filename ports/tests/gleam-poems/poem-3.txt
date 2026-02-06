@@ -1,0 +1,17 @@
+Oh Gleam, you rise like morning light,
+A beacon in the functional night.
+Your types flow strong and clear,
+No null to cause us fear,
+Just pure expressions burning bright.
+
+You dance on Erlang's ancient stage,
+Yet write in this modern age.
+Pattern matching guides the way,
+Actors work and play,
+A language that truly engages.
+
+Your compiler gentle yet so firm,
+Guiding hands to help us learn.
+In the BEAM you find your home,
+No longer code to roam,
+Gleam, the modern concern.

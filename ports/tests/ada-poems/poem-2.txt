@@ -1,0 +1,11 @@
+A programmer named Ada once wrote
+With syntax that made her note
+"With semicolons and strict types
+My code never takes hikes
+Though the compiler makes me dote!"
+
+The language so formal and grand
+Was designed by a careful hand
+For rockets and planes
+Where bugs cause no pains
+Ada code you can trust across land!

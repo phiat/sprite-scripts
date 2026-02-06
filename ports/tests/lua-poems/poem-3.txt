@@ -1,0 +1,10 @@
+O Lua, you elegant simplicity,
+Born in Brazil, now global in your reach.
+Your tables, both arrays and maps combined,
+Your coroutines dance in concurrent time.
+One-based indexing, a curious choice,
+Yet somehow feels right in your design.
+Embedded deep in engines, games, and tools,
+You prove that small can be mighty indeed.
+From Nginx to World of Warcraft's core,
+Your footprint light, your impact profound.

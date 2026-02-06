@@ -48,22 +48,20 @@ Sets parsed values into the process environment (does not overwrite existing)."
     (dolist (line (split-lines content))
       (let ((trimmed (string-trim '(#\Space #\Tab #\Return) line)))
         ;; Skip blank lines and comments
-        (when (or (zerop (length trimmed))
-                  (char= (char trimmed 0) #\#))
-          (go :next))
-        ;; Must contain =
-        (let ((eq-pos (position #\= trimmed)))
-          (unless eq-pos (go :next))
-          (let* ((key (string-trim '(#\Space #\Tab)
-                                   (subseq trimmed 0 eq-pos)))
-                 (raw-value (string-trim '(#\Space #\Tab)
-                                         (subseq trimmed (1+ eq-pos))))
-                 (value (strip-quotes raw-value)))
-            (push (cons key value) result)
-            ;; Set in environment if not already present
-            (unless (uiop:getenv key)
-              (sb-posix:setenv key value 1)))))
-      :next)
+        (when (and (plusp (length trimmed))
+                   (char/= (char trimmed 0) #\#))
+          ;; Must contain =
+          (let ((eq-pos (position #\= trimmed)))
+            (when eq-pos
+              (let* ((key (string-trim '(#\Space #\Tab)
+                                       (subseq trimmed 0 eq-pos)))
+                     (raw-value (string-trim '(#\Space #\Tab)
+                                             (subseq trimmed (1+ eq-pos))))
+                     (value (strip-quotes raw-value)))
+                (push (cons key value) result)
+                ;; Set in environment if not already present
+                (unless (uiop:getenv key)
+                  (sb-posix:setenv key value 1))))))))
     (nreverse result)))
 
 (defun getenv-or (key default)

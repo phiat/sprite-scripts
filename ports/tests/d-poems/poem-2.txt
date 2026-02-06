@@ -1,0 +1,11 @@
+A coder named Drew loved his D,
+With metaprogramming wild and free.
+He'd template with glee,
+Compile in a flash, you see,
+But cursed when GC slowed his spree.
+
+His D program ran like a dream,
+Until the runtime made it scream.
+"BetterC!" he'd shout,
+Without a doubt,
+Now his code flows like a steady stream.

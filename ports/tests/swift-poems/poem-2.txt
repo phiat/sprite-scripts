@@ -1,0 +1,11 @@
+A coder from Cupertino named Tim
+Found Swift's syntax quite positively prim
+But optionals made him curse
+"Force unwrap!" - what's worse?
+His app crashed right on a limb.
+
+The compiler then shouted with glee
+"You forgot nil safety, you see!"
+So Tim learned with great care
+To handle with ? flair
+Now his Swift apps run bug-free.

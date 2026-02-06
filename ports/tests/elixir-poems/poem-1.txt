@@ -1,0 +1,5 @@
+Elixir flows like streams
+Concurrent processes dance
+Fault-tolerant dreams
+BEAM lights the way
+Phoenix rises from code

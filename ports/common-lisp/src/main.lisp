@@ -22,7 +22,11 @@
 
 (defun main ()
   "Main CLI entry point. Dispatches to subcommands."
-  (let* ((argv (uiop:command-line-arguments))
+  (let* ((raw-argv (uiop:command-line-arguments))
+         ;; Skip leading "--" separator from SBCL invocation
+         (argv (if (and raw-argv (string= (first raw-argv) "--"))
+                   (rest raw-argv)
+                   raw-argv))
          (argc (length argv)))
 
     ;; No arguments or help requested

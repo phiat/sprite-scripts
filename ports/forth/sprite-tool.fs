@@ -322,7 +322,7 @@ create line-buf 1024 allot
 
 : is-directory? ( addr len -- flag )
   cmd-reset s" test -d " cmd+ cmd+esc
-  cmd@ system 0= ;
+  cmd@ system $? 0= ;
 
 \ Push a local file to the sprite
 : sprite-push-file { sa sl da dl | -- }
@@ -536,7 +536,7 @@ variable arg-count
   then
 
   \ ==== Step 1: Check/install sprite CLI ====
-  s" command -v sprite >/dev/null 2>&1" system 0<> if
+  s" command -v sprite >/dev/null 2>&1" system $? 0<> if
     flag-dry-run @ if
       ." [dry-run] Would install sprite CLI" cr
     else
@@ -567,7 +567,7 @@ variable arg-count
     cmd-reset
     s" sprite ls 2>/dev/null | grep -qw " cmd+
     the-sprite 2@ cmd+esc
-    cmd@ system 0= if
+    cmd@ system $? 0= if
       ." Sprite '" the-sprite 2@ type ." ' already exists, using it." cr
     else
       ." Creating sprite: " the-sprite 2@ type cr
@@ -733,7 +733,7 @@ variable arg-count
       s" sprite checkpoint create -s " cmd+
       the-sprite 2@ cmd+esc
       s"  2>/dev/null" cmd+
-      cmd@ system 0= if
+      cmd@ system $? 0= if
         ." Final checkpoint saved." cr
       else
         ." Final checkpoint failed (non-fatal)." cr
@@ -953,6 +953,10 @@ variable arg-count
 
 : main ( -- )
   next-arg
+  dup 0= if 2drop usage-main then
+
+  \ Skip gforth's "--" separator if present
+  2dup s" --" str= if 2drop next-arg then
   dup 0= if 2drop usage-main then
 
   2dup s" launch" str= if 2drop collect-args do-launch exit then

@@ -1,0 +1,3 @@
+Stack grows deep
+Words compile and execute
+Forth speaks simplicity

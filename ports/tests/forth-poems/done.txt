@@ -1,0 +1,6 @@
+Created Files:
+- poem-1.txt: Haiku-style poem about Forth (4 lines)
+- poem-2.txt: Limerick about Forth's quirks (2 stanzas) 
+- poem-3.txt: Free-verse ode celebrating Forth (12 lines)
+
+All three poems about the Forth programming language have been completed as specified.

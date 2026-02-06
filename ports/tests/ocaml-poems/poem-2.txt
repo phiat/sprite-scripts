@@ -1,0 +1,11 @@
+There once was a language called OCaml
+Whose syntax could make you quite frantic
+With semicolons strict
+And pipes that conflict
+But its type system was truly romantic
+
+A programmer from France loved OCaml
+Though its quirks made him sometimes feel frantic
+The module system grand
+In this functional land
+Made his code both robust and ecstatic

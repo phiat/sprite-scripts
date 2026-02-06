@@ -7,11 +7,17 @@ defmodule SpriteTool.MixProject do
       version: "0.1.0",
       elixir: "~> 1.15",
       escript: [main_module: SpriteTool.CLI],
-      deps: []
+      deps: deps()
     ]
   end
 
   def application do
     [extra_applications: [:logger]]
+  end
+
+  defp deps do
+    [
+      {:credo, "~> 1.7", only: [:dev, :test], runtime: false}
+    ]
   end
 end

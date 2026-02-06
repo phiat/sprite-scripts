@@ -255,15 +255,17 @@
                       (lpush-file creds-path "/home/sprite/.claude/.credentials.json")
                       (lsx "chmod 600 ~/.claude/.credentials.json"))
                     (progn
-                      (format t "ERROR: ~/.claude/.credentials.json not found~%")
+                      (format t "ERROR: ~~/.claude/.credentials.json not found~%")
                       (format t "Run 'claude' locally first to authenticate, then re-run this script.~%")
                       (sb-ext:exit :code 1)))))
 
              ((and (string= (config-claude-auth cfg) "apikey")
                    (plusp (length (config-anthropic-api-key cfg))))
               (format t "Setting ANTHROPIC_API_KEY in sprite...~%")
-              (lsx (format nil "grep -q ANTHROPIC_API_KEY ~/.bashrc 2>/dev/null || echo 'export ANTHROPIC_API_KEY=\"~A\"' >> ~/.bashrc"
-                           (config-anthropic-api-key cfg))))
+              (lsx (concatenate 'string
+                    "grep -q ANTHROPIC_API_KEY ~/.bashrc 2>/dev/null || echo 'export ANTHROPIC_API_KEY=\""
+                    (config-anthropic-api-key cfg)
+                    "\"' >> ~/.bashrc")))
 
              (t
               (format t "ERROR: No valid claude auth configured~%")
@@ -329,8 +331,10 @@
                                             (config-model cfg)
                                             "opencode/big-pickle")))
                           (lsx-pass
-                           (format nil "set -a && source /home/sprite/.env 2>/dev/null && set +a && cd /home/sprite && ~/.opencode/bin/opencode run -m ~A 'read plan.md and complete the plan please'"
-                                   oc-model)))))
+                           (concatenate 'string
+                            "set -a && source /home/sprite/.env 2>/dev/null && set +a && cd /home/sprite && ~/.opencode/bin/opencode run -m "
+                            oc-model
+                            " 'read plan.md and complete the plan please'")))))
 
                      ;; Final checkpoint after agent completes
                      (when checkpoint-obj

@@ -1,0 +1,3 @@
+Parentheses dance
+Code flows like water, pure
+Lisp reborn in JVM

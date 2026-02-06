@@ -1,0 +1,3 @@
+Gleam shines so bright,
+Type-safe patterns take flight,
+Erlang beams with might.

@@ -199,7 +199,7 @@ Use `sprite-watch` from your host to poll the agent's progress via beads.
 
 All four scripts have been ported to **26 languages** as a unified `sprite-tool` binary/script with subcommands (`launch`, `push`, `pull`, `watch`). Each port lives under `ports/<language>/` and shells out to the `sprite` CLI.
 
-The entire porting effort — all 26 languages — took **less than 2 hours** using Claude Code with parallel agents.
+The entire porting effort — all 26 languages — took **less than 4 hours** using Claude Code with parallel agents.
 
 ![Porting session part 1](porting-1.png)
 ![Porting session part 2](porting-2.png)

@@ -1,0 +1,4 @@
+Created files:
+- poem-1.txt: Haiku-style poem about Clojure
+- poem-2.txt: Limerick about Clojure's quirks  
+- poem-3.txt: Free-verse ode celebrating Clojure

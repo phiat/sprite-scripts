@@ -17,7 +17,7 @@
 %% Execute a shell command and return stdout as a binary string.
 exec_cmd(Command) ->
     Result = os:cmd(binary_to_list(Command)),
-    list_to_binary(Result).
+    unicode:characters_to_binary(Result).
 
 %% Execute a shell command and return the exit code.
 %% Passes stdout through to the terminal.

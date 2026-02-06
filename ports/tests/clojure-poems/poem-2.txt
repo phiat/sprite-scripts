@@ -1,0 +1,11 @@
+A Lisp from New Jersey called Clojure grew bold,
+With immutable data pure as gold,
+No side effects here,
+Just functions so clear,
+Its REPL helps ideas unfold.
+
+The JVM it calls home with great grace,
+While macros give programs new space,
+No mutable state,
+Just patterns so great,
+Rich Hickey's design finds its place.

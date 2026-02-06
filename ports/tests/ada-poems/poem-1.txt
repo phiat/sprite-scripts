@@ -1,0 +1,3 @@
+Strong types compile safe,
+Ada guards the critical code,
+Missions fly secure.

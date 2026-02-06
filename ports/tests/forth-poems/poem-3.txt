@@ -1,0 +1,14 @@
+Ode to Forth, the language of stacks and dreams,
+Where words become commands and nothing's as it seems.
+Chuck Moore's creation, born in the seventies,
+Still running on systems with minimal penalties.
+
+Reverse Polish notation, elegant and pure,
+No need for parentheses, the syntax is secure.
+Compile while you think, extend while you code,
+Forth gives you freedom on that narrow road.
+
+From astronomy to embedded systems tiny,
+Your influence remains anything but shiny.
+Direct hardware access, metaprogramming bliss,
+In the world of languages, you're something you can't miss.

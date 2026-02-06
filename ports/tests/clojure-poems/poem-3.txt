@@ -1,0 +1,14 @@
+Oh Clojure, you speak in parentheses,
+A language of simplicity and power,
+Where data becomes eternal, immutable,
+And functions flow like pure mountain streams.
+
+Your REPL breathes life into ideas,
+Macros reshape reality itself,
+On the JVM you dance with grace,
+Bringing Lisp's wisdom to modern days.
+
+No classes, no objects, just values and transformations,
+A world where state is a choice, not a burden,
+Where concurrency flows without fear,
+And elegance reigns in every expression.

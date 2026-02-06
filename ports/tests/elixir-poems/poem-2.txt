@@ -1,0 +1,11 @@
+A coder named Tim loved Elixir so,
+Its concurrency made his code glow.
+With pattern matching neat,
+And processes sweet,
+His apps ran fast, didn't slow.
+
+The BEAM VM handled the load,
+While his Erlang foundation showed.
+OTP supervised,
+With nowhere to hide,
+His scalable masterpiece flowed.

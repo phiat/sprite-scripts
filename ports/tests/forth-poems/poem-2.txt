@@ -1,0 +1,11 @@
+A coder from MIT loved Forth so,
+With Reverse Polish he'd go.
+Push on the stack,
+Don't look back,
+While the registers put on a show.
+
+The syntax looked weird to some folks,
+Just words and parentheses hooks.
+But compile-time magic,
+So quite tragic,
+For those who couldn't read the books!

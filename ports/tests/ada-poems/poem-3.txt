@@ -1,0 +1,14 @@
+O Ada, language of precision and trust,
+Born from the need for systems that never fail.
+Your strong typing catches errors before they run,
+Your tasking features dance in parallel grace.
+
+From aviation to space exploration,
+You guard the critical paths where lives depend.
+Ravenscar profile, minimal yet complete,
+Your design philosophy echoes through time.
+
+Named for the first programmer, Lady Lovelace,
+You carry her legacy of logical beauty.
+In your formal verbs and rigid structure,
+We find freedom from the chaos of bugs.

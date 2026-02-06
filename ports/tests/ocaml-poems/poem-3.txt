@@ -1,0 +1,14 @@
+OCaml, you dance with types and grace,
+Where inference guides the programmer's pace.
+Your functional heart beats pure and strong,
+Immutable data where nothing goes wrong.
+
+From INRIA's labs you emerged so bright,
+A language that makes everything right.
+Pattern matching flows like poetry,
+Modules and functors set thinking free.
+
+Jane Street embraced you for finance and trade,
+Your performance never starts to fade.
+Compiler warnings catch every mistake,
+Safety and speed is the path you take.

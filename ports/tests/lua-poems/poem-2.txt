@@ -1,0 +1,11 @@
+A quirky language named Lua
+Felt quite constrained by its syntax, "Ooh-a!"
+But its tables so grand
+Made developers stand
+In awe of its flexible tricks, "Woo-hoo!"
+
+The C API though quite terse
+Made embedding feel like a curse
+Yet its speed and its grace
+Won the programming race
+Now Lua's the best, getting better, not worse!
