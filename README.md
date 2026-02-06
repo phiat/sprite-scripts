@@ -197,9 +197,9 @@ Use `sprite-watch` from your host to poll the agent's progress via beads.
 
 ## Language Ports
 
-All four scripts have been ported to **27 languages** as a unified `sprite-tool` binary/script with subcommands (`launch`, `push`, `pull`, `watch`). Each port lives under `ports/<language>/` and shells out to the `sprite` CLI.
+All four scripts have been ported to **26 languages** as a unified `sprite-tool` binary/script with subcommands (`launch`, `push`, `pull`, `watch`). Each port lives under `ports/<language>/` and shells out to the `sprite` CLI.
 
-The entire porting effort — all 27 languages — took **less than 1 hour** using Claude Code with parallel agents.
+The entire porting effort — all 26 languages — took **less than 1 hour** using Claude Code with parallel agents.
 
 ![Porting session part 1](porting-1.png)
 ![Porting session part 2](porting-2.png)
@@ -220,7 +220,6 @@ The entire porting effort — all 27 languages — took **less than 1 hour** usi
 | Ada | `ports/ada/` | `gprbuild -P sprite_tool.gpr` |
 | Swift | `ports/swift/` | `swift build -c release` |
 | Haxe | `ports/haxe/` | `haxe build.hxml` |
-| Mojo | `ports/mojo/` | `mojo build src/main.mojo` |
 
 ### JVM/BEAM/Managed Languages
 

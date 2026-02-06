@@ -27,16 +27,16 @@ Config :: struct {
 // Call this after load_env_file() has been applied.
 build_config :: proc() -> Config {
     cfg := Config{
-        sprite_token:        get_env_or("SPRITE_TOKEN", ""),
-        agent:               get_env_or("AGENT", "opencode"),
-        claude_auth:         get_env_or("CLAUDE_AUTH", "subscription"),
-        anthropic_api_key:   get_env_or("ANTHROPIC_API_KEY", ""),
-        model:               get_env_or("MODEL", ""),
-        checkpoint_interval: 300,
-        env_file:            get_env_or("ENV_FILE", "./.env"),
+        sprite_token        = get_env_or("SPRITE_TOKEN", ""),
+        agent               = get_env_or("AGENT", "opencode"),
+        claude_auth         = get_env_or("CLAUDE_AUTH", "subscription"),
+        anthropic_api_key   = get_env_or("ANTHROPIC_API_KEY", ""),
+        model               = get_env_or("MODEL", ""),
+        checkpoint_interval = 300,
+        env_file            = get_env_or("ENV_FILE", "./.env"),
     }
 
-    interval_str, interval_found := os.get_env("CHECKPOINT_INTERVAL")
+    interval_str, interval_found := os.lookup_env("CHECKPOINT_INTERVAL")
     if interval_found && interval_str != "" {
         val, ok := strconv.parse_int(interval_str)
         if ok {
@@ -95,9 +95,9 @@ load_env_file :: proc(path: string) -> bool {
 
 // Apply SPRITES_TOKEN -> SPRITE_TOKEN fallback after loading .env
 apply_sprite_token_fallback :: proc() {
-    sprite_token, st_found := os.get_env("SPRITE_TOKEN")
+    sprite_token, st_found := os.lookup_env("SPRITE_TOKEN")
     if !st_found || sprite_token == "" {
-        sprites_token, sts_found := os.get_env("SPRITES_TOKEN")
+        sprites_token, sts_found := os.lookup_env("SPRITES_TOKEN")
         if sts_found && sprites_token != "" {
             set_env("SPRITE_TOKEN", sprites_token)
         }
@@ -106,7 +106,7 @@ apply_sprite_token_fallback :: proc() {
 
 // Helper: get environment variable with a default fallback
 get_env_or :: proc(key: string, default_val: string) -> string {
-    val, found := os.get_env(key)
+    val, found := os.lookup_env(key)
     if !found || val == "" {
         return default_val
     }

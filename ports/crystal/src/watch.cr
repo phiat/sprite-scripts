@@ -46,8 +46,8 @@ module SpriteTool
 
         # Show task status
         begin
-          out = sprite.exec("cd /home/sprite && bd show #{resolved_task_id} 2>/dev/null")
-          puts out
+          output = sprite.exec("cd /home/sprite && bd show #{resolved_task_id} 2>/dev/null")
+          puts output
         rescue
           puts "(could not read task)"
         end

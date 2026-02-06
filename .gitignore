@@ -63,6 +63,3 @@ ports/odin/sprite-tool
 # Python
 ports/python/__pycache__/
 ports/python/**/__pycache__/
-
-# Mojo
-ports/mojo/__pycache__/

@@ -2,7 +2,7 @@
 with Ada.Text_IO;              use Ada.Text_IO;
 with Ada.Command_Line;         use Ada.Command_Line;
 with Ada.Strings.Unbounded;    use Ada.Strings.Unbounded;
-with Ada.Directories;
+with Ada.Directories;          use Ada.Directories;
 with Ada.Environment_Variables;
 with Sprite_Exec;
 

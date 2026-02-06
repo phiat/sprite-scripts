@@ -1,5 +1,7 @@
 (* main.ml — Entry point and subcommand dispatch for sprite-tool *)
 
+open Sprite_tool
+
 let usage () =
   Printf.printf
 {|sprite-tool: A CLI tool for managing sprites with coding agents

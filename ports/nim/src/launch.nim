@@ -44,21 +44,22 @@ var
 
 proc checkpointLoop() {.thread.} =
   ## Background thread that creates periodic checkpoints.
-  while true:
-    sleep(checkpointIntervalSecs * 1000)
-    acquire(checkpointLock)
-    let running = checkpointRunning
-    let spriteName = checkpointSprite
-    release(checkpointLock)
-    if not running:
-      break
-    let timeStr = now().format("HH:mm:ss")
-    echo "[checkpoint] Creating checkpoint at " & timeStr & "..."
-    let (_, exitCode) = spriteCmdCapture("checkpoint", "create", "-s", spriteName)
-    if exitCode == 0:
-      echo "[checkpoint] Done."
-    else:
-      echo "[checkpoint] Failed (non-fatal)."
+  {.cast(gcsafe).}:
+    while true:
+      sleep(checkpointIntervalSecs * 1000)
+      acquire(checkpointLock)
+      let running = checkpointRunning
+      let spriteName = checkpointSprite
+      release(checkpointLock)
+      if not running:
+        break
+      let timeStr = now().format("HH:mm:ss")
+      echo "[checkpoint] Creating checkpoint at " & timeStr & "..."
+      let (_, exitCode) = spriteCmdCapture("checkpoint", "create", "-s", spriteName)
+      if exitCode == 0:
+        echo "[checkpoint] Done."
+      else:
+        echo "[checkpoint] Failed (non-fatal)."
 
 var checkpointThread: Thread[void]
 
