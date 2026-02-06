@@ -28,7 +28,11 @@ bd sync               # Sync with git
    git push
    git status  # MUST show "up to date with origin"
    ```
-5. **Clean up** - Clear stashes, prune remote branches
+5. **Clean up sprites and branches** - Destroy any sprites you created, clear stashes, prune remote branches
+   ```bash
+   sprite ls                          # List running sprites
+   sprite destroy --force <name>      # Destroy a sprite (--force required)
+   ```
 6. **Verify** - All changes committed AND pushed
 7. **Hand off** - Provide context for next session
 
