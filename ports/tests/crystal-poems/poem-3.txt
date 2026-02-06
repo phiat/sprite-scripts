@@ -1,0 +1,13 @@
+Crystal, bridge between two worlds,
+Where Ruby's elegance meets C's raw speed.
+You dance with type inference, smart and bold,
+Catching errors before they plant their seed.
+
+No runtime surprises plague your path,
+Just pure performance, lightning fast and true.
+LLVM compiles your beautiful math,
+While keeping Ruby's soul shining through.
+
+Static types without the pain,
+Memory safe without the chains.
+Crystal, you are freedom gained.

@@ -1,0 +1,12 @@
+Oh Haskell, elegant language of the mind,
+Where pure functions flow like rivers of thought.
+Your lazy evaluation holds secrets untold,
+Computations deferred until the moment they're sought.
+Pattern matching dances across your concise syntax,
+Type inference guides us with mathematical grace.
+From the Glasgow Compiler to cabal's embrace,
+You stand as a fortress against programming's race.
+Functional paradigm, crystal clear and precise,
+In your immutable world, bugs find no home.
+May your influence grow, may your wisdom suffice,
+As we write programs that never grow old.

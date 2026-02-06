@@ -1,0 +1,14 @@
+O Perl, you duct tape of the internet,
+Your Swiss army chainsaw cuts through problems.
+Larry Wall's creation speaks human thoughts,
+"There's more than one way to do it" echoes through time.
+
+Your sigils dance like dollar signs and at-signs,
+Context-aware and flexible as water.
+CPAN's treasure trove expands endlessly,
+Modules for every need, every desire.
+
+From sysadmin scripts to bioinformatics,
+You adapt, you transform, you persist.
+Thirty years strong, still relevant, still powerful,
+Perl, the practical extraction wizard.

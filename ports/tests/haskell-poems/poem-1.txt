@@ -1,0 +1,3 @@
+Pure functions flow
+Lazy streams dance in silence
+Type safety sings

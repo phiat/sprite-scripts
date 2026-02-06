@@ -1,0 +1,11 @@
+There once was a language called Nim,
+Whose syntax was quite on a whim.
+Like Python it looked,
+But C-speed it booked,
+Making programmers happy and prim.
+
+Its metaprogramming might,
+Could generate code day and night.
+With templates so grand,
+Across all the land,
+Nim made coding feel truly right.

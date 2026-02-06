@@ -1,0 +1,11 @@
+There once was a language called Crystal,
+Whose speed would make Python men bristle.
+With Ruby's sweet grace,
+But compiled in place,
+It ran like a fast-paced missile.
+
+Its type checking strict, not so loose,
+Would catch all your errors produce.
+No runtime surprises,
+With crystal-clear prizes,
+Your code would be sharp as a spruce.

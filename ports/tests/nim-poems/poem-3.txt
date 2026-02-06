@@ -1,0 +1,14 @@
+O Nim, you elegant creature of code,
+Where Python's grace meets systems language load.
+Your garbage collector dances so free,
+While manual memory waits for decree.
+
+Your compile-time magic bends reality,
+Macros expand with such facility.
+From embedded devices to web apps so bright,
+You cross-compile with effortless might.
+
+Your community small but passionate true,
+Building libraries fresh and new.
+In the landscape of languages vast and wide,
+Nim, you stand with nothing to hide.

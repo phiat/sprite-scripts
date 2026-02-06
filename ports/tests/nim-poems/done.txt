@@ -1,0 +1,7 @@
+Created three poems about Nim programming language:
+
+1. poem-1.txt - Haiku-style poem (5 lines) about Nim's features
+2. poem-2.txt - Limerick (2 stanzas) about Nim's quirks and characteristics  
+3. poem-3.txt - Free-verse ode (12 lines) celebrating what makes Nim unique
+
+All poems specifically reference Nim, its features, and ecosystem as required.

@@ -1,0 +1,11 @@
+A programmer named Haskell McGee
+Found his code would not compile, you see
+With monads and functors
+And type class conductors
+He cried "What does this syntax decree?"
+
+But soon he embraced the pure way
+Where side effects could not stray
+With lazy evaluation
+And type validation
+His programs ran perfectly each day

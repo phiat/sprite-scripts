@@ -1,0 +1,11 @@
+There once was a language called Perl,
+Whose syntax could make programmers hurl.
+With sigils and refs,
+It puzzles the clefs,
+But gets the job done, truth to tell.
+
+The camel's odd symbols abound,
+While $_ and @f shift around.
+Context-sensitive,
+It makes programmers gripe,
+Yet CPAN's gems can still be found.

@@ -1,0 +1,5 @@
+Nim compiles fast and clean,
+Syntax like Python's dream,
+Systems code with ease,
+Performance that frees,
+Memory safe, keen.
