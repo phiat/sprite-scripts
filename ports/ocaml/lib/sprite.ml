@@ -70,7 +70,7 @@ let run_sprite_interactive ~dry_run args =
     system_checked cmd
 
 (* Check if sprite CLI is installed; install if not. *)
-let ensure_cli ~dry_run =
+let rec ensure_cli ~dry_run =
   let (code, _) = capture_output "command -v sprite" in
   if code = 0 then
     ()
