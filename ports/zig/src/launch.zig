@@ -7,18 +7,12 @@ const Config = config_mod.Config;
 pub const LaunchArgs = struct {
     dry_run: bool = false,
     no_checkpoint: bool = false,
-    upload_dirs: std.ArrayList([]const u8),
+    upload_dirs: std.ArrayList([]const u8) = .empty,
     sprite_name: ?[]const u8 = null,
     plan_file: ?[]const u8 = null,
 
-    pub fn init(alloc: std.mem.Allocator) LaunchArgs {
-        return .{
-            .upload_dirs = std.ArrayList([]const u8).init(alloc),
-        };
-    }
-
-    pub fn deinit(self: *LaunchArgs) void {
-        self.upload_dirs.deinit();
+    pub fn deinit(self: *LaunchArgs, alloc: std.mem.Allocator) void {
+        self.upload_dirs.deinit(alloc);
     }
 };
 
@@ -31,7 +25,7 @@ fn printErr(msg: []const u8) void {
 }
 
 pub fn parseArgs(alloc: std.mem.Allocator, raw_args: []const []const u8) !LaunchArgs {
-    var args = LaunchArgs.init(alloc);
+    var args = LaunchArgs{};
     var i: usize = 0;
     while (i < raw_args.len) : (i += 1) {
         const arg = raw_args[i];
@@ -45,7 +39,7 @@ pub fn parseArgs(alloc: std.mem.Allocator, raw_args: []const []const u8) !Launch
                 printErr("Error: --upload requires an argument\n");
                 return error.InvalidArgs;
             }
-            try args.upload_dirs.append(raw_args[i]);
+            try args.upload_dirs.append(alloc, raw_args[i]);
         } else if (std.mem.eql(u8, arg, "--help") or std.mem.eql(u8, arg, "-h")) {
             printUsage();
             std.process.exit(0);
@@ -144,7 +138,7 @@ fn checkpointThread(ctx: CheckpointContext) void {
 
 pub fn execute(alloc: std.mem.Allocator, raw_args: []const []const u8) !void {
     var args = try parseArgs(alloc, raw_args);
-    defer args.deinit();
+    defer args.deinit(alloc);
 
     const sprite_name = args.sprite_name.?;
 
@@ -357,15 +351,15 @@ pub fn execute(alloc: std.mem.Allocator, raw_args: []const []const u8) !void {
         }
 
         if (std.mem.eql(u8, cfg.agent, "claude")) {
-            var cmd_buf = std.ArrayList(u8).init(alloc);
-            defer cmd_buf.deinit();
-            try cmd_buf.appendSlice("cd /home/sprite && claude ");
+            var cmd_buf: std.ArrayList(u8) = .empty;
+            defer cmd_buf.deinit(alloc);
+            try cmd_buf.appendSlice(alloc, "cd /home/sprite && claude ");
             if (cfg.model) |m| {
-                try cmd_buf.appendSlice("--model ");
-                try cmd_buf.appendSlice(m);
-                try cmd_buf.append(' ');
+                try cmd_buf.appendSlice(alloc, "--model ");
+                try cmd_buf.appendSlice(alloc, m);
+                try cmd_buf.append(alloc, ' ');
             }
-            try cmd_buf.appendSlice("-p 'read plan.md and complete the plan please'");
+            try cmd_buf.appendSlice(alloc, "-p 'read plan.md and complete the plan please'");
             _ = try sprite.sx(alloc, sprite_name, cmd_buf.items, false);
         } else if (std.mem.eql(u8, cfg.agent, "opencode")) {
             const oc_model = cfg.model orelse "opencode/big-pickle";

@@ -84,17 +84,17 @@ fn pushDirectory(alloc: std.mem.Allocator, sprite_name: ?[]const u8, local_path:
     const untar_cmd = try std.fmt.allocPrint(alloc, "mkdir -p '{s}' && tar xzf - -C '{s}' --strip-components=1", .{ remote_path, remote_path });
     defer alloc.free(untar_cmd);
 
-    var sprite_argv_list = std.ArrayList([]const u8).init(alloc);
-    defer sprite_argv_list.deinit();
-    try sprite_argv_list.append("sprite");
-    try sprite_argv_list.append("exec");
+    var sprite_argv_list: std.ArrayList([]const u8) = .empty;
+    defer sprite_argv_list.deinit(alloc);
+    try sprite_argv_list.append(alloc,"sprite");
+    try sprite_argv_list.append(alloc,"exec");
     if (sprite_name) |name| {
-        try sprite_argv_list.append("-s");
-        try sprite_argv_list.append(name);
+        try sprite_argv_list.append(alloc,"-s");
+        try sprite_argv_list.append(alloc,name);
     }
-    try sprite_argv_list.append("bash");
-    try sprite_argv_list.append("-c");
-    try sprite_argv_list.append(untar_cmd);
+    try sprite_argv_list.append(alloc,"bash");
+    try sprite_argv_list.append(alloc,"-c");
+    try sprite_argv_list.append(alloc,untar_cmd);
 
     var sprite_child = std.process.Child.init(sprite_argv_list.items, alloc);
     sprite_child.stderr_behavior = .Inherit;
@@ -135,17 +135,17 @@ fn pushSingleFile(alloc: std.mem.Allocator, sprite_name: ?[]const u8, local_path
     const cat_cmd = try std.fmt.allocPrint(alloc, "mkdir -p '{s}' && cat > '{s}'", .{ remote_dir, remote_path });
     defer alloc.free(cat_cmd);
 
-    var argv_list = std.ArrayList([]const u8).init(alloc);
-    defer argv_list.deinit();
-    try argv_list.append("sprite");
-    try argv_list.append("exec");
+    var argv_list: std.ArrayList([]const u8) = .empty;
+    defer argv_list.deinit(alloc);
+    try argv_list.append(alloc,"sprite");
+    try argv_list.append(alloc,"exec");
     if (sprite_name) |name| {
-        try argv_list.append("-s");
-        try argv_list.append(name);
+        try argv_list.append(alloc,"-s");
+        try argv_list.append(alloc,name);
     }
-    try argv_list.append("bash");
-    try argv_list.append("-c");
-    try argv_list.append(cat_cmd);
+    try argv_list.append(alloc,"bash");
+    try argv_list.append(alloc,"-c");
+    try argv_list.append(alloc,cat_cmd);
 
     var child = std.process.Child.init(argv_list.items, alloc);
     child.stderr_behavior = .Inherit;

@@ -76,7 +76,7 @@ pub fn runCaptureQuiet(alloc: std.mem.Allocator, argv: []const []const u8) !?[]c
 
 /// Read all data from a File into an allocated buffer.
 fn readAllFromFile(alloc: std.mem.Allocator, file: std.fs.File) ![]u8 {
-    var list = std.ArrayList(u8).init(alloc);
+    var list: std.ArrayList(u8) = .empty;
     var buf: [8192]u8 = undefined;
     while (true) {
         const n = file.read(&buf) catch |err| switch (err) {
@@ -84,9 +84,9 @@ fn readAllFromFile(alloc: std.mem.Allocator, file: std.fs.File) ![]u8 {
             else => return err,
         };
         if (n == 0) break;
-        try list.appendSlice(buf[0..n]);
+        try list.appendSlice(alloc, buf[0..n]);
     }
-    return list.toOwnedSlice();
+    return try list.toOwnedSlice(alloc);
 }
 
 /// Execute a bash command on a sprite: sprite exec -s <name> bash -c <cmd>
@@ -102,34 +102,34 @@ pub fn sx(alloc: std.mem.Allocator, sprite_name: ?[]const u8, cmd: []const u8, d
         return true;
     }
 
-    var argv_list = std.ArrayList([]const u8).init(alloc);
-    defer argv_list.deinit();
-    try argv_list.append("sprite");
-    try argv_list.append("exec");
+    var argv_list: std.ArrayList([]const u8) = .empty;
+    defer argv_list.deinit(alloc);
+    try argv_list.append(alloc, "sprite");
+    try argv_list.append(alloc, "exec");
     if (sprite_name) |name| {
-        try argv_list.append("-s");
-        try argv_list.append(name);
+        try argv_list.append(alloc, "-s");
+        try argv_list.append(alloc, name);
     }
-    try argv_list.append("bash");
-    try argv_list.append("-c");
-    try argv_list.append(cmd);
+    try argv_list.append(alloc, "bash");
+    try argv_list.append(alloc, "-c");
+    try argv_list.append(alloc, cmd);
 
     return run(alloc, argv_list.items);
 }
 
 /// Capture output from a bash command on a sprite.
 pub fn sxCapture(alloc: std.mem.Allocator, sprite_name: ?[]const u8, cmd: []const u8) !?[]const u8 {
-    var argv_list = std.ArrayList([]const u8).init(alloc);
-    defer argv_list.deinit();
-    try argv_list.append("sprite");
-    try argv_list.append("exec");
+    var argv_list: std.ArrayList([]const u8) = .empty;
+    defer argv_list.deinit(alloc);
+    try argv_list.append(alloc, "sprite");
+    try argv_list.append(alloc, "exec");
     if (sprite_name) |name| {
-        try argv_list.append("-s");
-        try argv_list.append(name);
+        try argv_list.append(alloc, "-s");
+        try argv_list.append(alloc, name);
     }
-    try argv_list.append("bash");
-    try argv_list.append("-c");
-    try argv_list.append(cmd);
+    try argv_list.append(alloc, "bash");
+    try argv_list.append(alloc, "-c");
+    try argv_list.append(alloc, cmd);
 
     return runCaptureQuiet(alloc, argv_list.items);
 }

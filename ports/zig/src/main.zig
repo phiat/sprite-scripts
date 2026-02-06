@@ -25,14 +25,14 @@ pub fn main() !void {
     const alloc = gpa.allocator();
 
     // Collect all args into a slice (skip argv[0] which is the program name)
-    var arg_list = std.ArrayList([]const u8).init(alloc);
-    defer arg_list.deinit();
+    var arg_list: std.ArrayList([]const u8) = .empty;
+    defer arg_list.deinit(alloc);
 
     var args_iter = std.process.args();
     _ = args_iter.skip(); // skip program name
 
     while (args_iter.next()) |arg| {
-        try arg_list.append(arg);
+        try arg_list.append(alloc, arg);
     }
 
     const args = arg_list.items;

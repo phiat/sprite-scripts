@@ -72,17 +72,17 @@ fn pullDirectory(alloc: std.mem.Allocator, sprite_name: ?[]const u8, remote_path
     const tar_cmd = try std.fmt.allocPrint(alloc, "tar czf - -C '{s}' .", .{remote_path});
     defer alloc.free(tar_cmd);
 
-    var sprite_argv_list = std.ArrayList([]const u8).init(alloc);
-    defer sprite_argv_list.deinit();
-    try sprite_argv_list.append("sprite");
-    try sprite_argv_list.append("exec");
+    var sprite_argv_list: std.ArrayList([]const u8) = .empty;
+    defer sprite_argv_list.deinit(alloc);
+    try sprite_argv_list.append(alloc,"sprite");
+    try sprite_argv_list.append(alloc,"exec");
     if (sprite_name) |name| {
-        try sprite_argv_list.append("-s");
-        try sprite_argv_list.append(name);
+        try sprite_argv_list.append(alloc,"-s");
+        try sprite_argv_list.append(alloc,name);
     }
-    try sprite_argv_list.append("bash");
-    try sprite_argv_list.append("-c");
-    try sprite_argv_list.append(tar_cmd);
+    try sprite_argv_list.append(alloc,"bash");
+    try sprite_argv_list.append(alloc,"-c");
+    try sprite_argv_list.append(alloc,tar_cmd);
 
     var sprite_child = std.process.Child.init(sprite_argv_list.items, alloc);
     sprite_child.stderr_behavior = .Inherit;
@@ -140,16 +140,16 @@ fn pullFile(alloc: std.mem.Allocator, sprite_name: ?[]const u8, remote_path: []c
     };
 
     // sprite exec cat remote_path > local_path
-    var argv_list = std.ArrayList([]const u8).init(alloc);
-    defer argv_list.deinit();
-    try argv_list.append("sprite");
-    try argv_list.append("exec");
+    var argv_list: std.ArrayList([]const u8) = .empty;
+    defer argv_list.deinit(alloc);
+    try argv_list.append(alloc,"sprite");
+    try argv_list.append(alloc,"exec");
     if (sprite_name) |name| {
-        try argv_list.append("-s");
-        try argv_list.append(name);
+        try argv_list.append(alloc,"-s");
+        try argv_list.append(alloc,name);
     }
-    try argv_list.append("cat");
-    try argv_list.append(remote_path);
+    try argv_list.append(alloc,"cat");
+    try argv_list.append(alloc,remote_path);
 
     var child = std.process.Child.init(argv_list.items, alloc);
     child.stderr_behavior = .Inherit;

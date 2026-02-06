@@ -22,8 +22,7 @@ pub fn loadEnvFile(alloc: std.mem.Allocator, path: []const u8) !std.StringHashMa
     defer file.close();
 
     // Read the entire file into memory
-    const contents = file.readToEndAlloc(alloc, 1024 * 1024) catch |err| {
-        _ = err;
+    const contents = file.readToEndAlloc(alloc, 1024 * 1024) catch {
         return map;
     };
     defer alloc.free(contents);

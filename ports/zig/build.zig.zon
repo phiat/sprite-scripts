@@ -1,6 +1,6 @@
 .{
-    .name = .@"sprite-tool",
-    .version = .@"0.1.0",
-    .fingerprint = 0x0,
+    .name = .sprite_tool,
+    .version = "0.1.0",
+    .fingerprint = 0x1015834373fbfb59,
     .paths = .{ "src", "build.zig", "build.zig.zon" },
 }
