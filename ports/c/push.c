@@ -20,14 +20,15 @@ static void push_usage(void)
 
 int cmd_push(int argc, char **argv)
 {
-    if (argc < 2) {
+    /* argv[0] is the subcommand name; real args start at argv[1] */
+    if (argc < 3) {
         push_usage();
         return 1;
     }
 
-    const char *local_path  = argv[0];
-    const char *remote_path = argv[1];
-    const char *sprite      = (argc >= 3) ? argv[2] : NULL;
+    const char *local_path  = argv[1];
+    const char *remote_path = argv[2];
+    const char *sprite      = (argc >= 4) ? argv[3] : NULL;
 
     /* Build sprite args: if no sprite name, call without -s */
     struct stat st;

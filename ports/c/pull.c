@@ -20,14 +20,15 @@ static void pull_usage(void)
 
 int cmd_pull(int argc, char **argv)
 {
-    if (argc < 2) {
+    /* argv[0] is the subcommand name; real args start at argv[1] */
+    if (argc < 3) {
         pull_usage();
         return 1;
     }
 
-    const char *remote_path = argv[0];
-    const char *local_path  = argv[1];
-    const char *sprite      = (argc >= 3) ? argv[2] : NULL;
+    const char *remote_path = argv[1];
+    const char *local_path  = argv[2];
+    const char *sprite      = (argc >= 4) ? argv[3] : NULL;
 
     /* Detect whether remote path is a directory or file */
     int is_dir;

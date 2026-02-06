@@ -1,0 +1,14 @@
+O, C language, born in seventies light,
+You gave us the power to write with such might.
+From Bell Labs you emerged, simple and clean,
+The foundation for systems yet to be seen.
+
+Your curly braces embrace every thought,
+Your semicolons mark where each line is caught.
+With structs and unions, we build our own types,
+While header files keep our code in its stripes.
+
+You run on the metal, close to the core,
+No garbage collector, no runtime to bore.
+From kernels to embedded, you stand ever true,
+Fifty years strong, still fresh and still new.

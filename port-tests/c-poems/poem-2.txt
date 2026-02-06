@@ -1,0 +1,11 @@
+A programmer named Tim wrote in C,
+But his pointers went wild, you see.
+He malloced with glee,
+Then forgot to set free,
+And crashed with a segfault spree.
+
+His code ran for hours and days,
+Through countless debugging malaise.
+With valgrind in hand,
+He found malloc's command,
+And fixed that poor memory maze.

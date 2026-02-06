@@ -1,0 +1,11 @@
+An F# coder from Doncaster town
+Loved pipes that would flow up and down
+With |> he'd compose
+Through functions he'd close
+While mutability wore a deep frown
+
+His unions were discriminated so well
+Pattern matching would cast its sweet spell
+Immutability kept
+All bugs neatly swept
+Making F# code ring like a bell

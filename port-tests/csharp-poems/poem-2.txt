@@ -1,0 +1,11 @@
+There once was a coder named Pat,
+Who thought C# was rather quite neat,
+With LINQ so concise,
+And async twice as nice,
+The CLR made their code complete.
+
+The properties auto-implemented,
+While generics kept types prevented,
+With await and async,
+The code stayed distinct,
+C# features left them contented.

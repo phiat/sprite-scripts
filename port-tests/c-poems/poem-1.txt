@@ -1,0 +1,3 @@
+C code compiles fast
+Pointers dance through memory
+Kernel's native tongue

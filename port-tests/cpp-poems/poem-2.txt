@@ -1,0 +1,11 @@
+A programmer from C++ land,
+Wrote templates they couldn't understand.
+With STL so great,
+RAII sealed their fate,
+But compile times were out of their hand.
+
+The templates they wrote grew so deep,
+While the linker and compiler would weep.
+Yet the code ran so fast,
+A marvel to cast,
+From errors they'd constantly leap!

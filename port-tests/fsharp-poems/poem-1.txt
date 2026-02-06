@@ -1,0 +1,3 @@
+F# code flows clean
+Immutable data streams through
+Functions pipe with grace

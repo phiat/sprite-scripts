@@ -1,0 +1,10 @@
+O C++, you dance on the edge of machine and mind,
+Where pointers pierce memory's veil,
+And templates weave abstract dreams into binary reality.
+You are the architect's chisel,
+Carving systems from silicon thought,
+RAII's promise whispered in every destructor's call.
+From Stroustrup's vision to modern C++20,
+You carry the weight of decades while reaching for tomorrow,
+A language that trusts its programmers,
+And rewards those who earn that trust with pure, unbridled speed.

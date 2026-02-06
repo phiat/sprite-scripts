@@ -35,12 +35,11 @@ int main(int argc, char **argv)
         return 0;
     }
 
-    /* Shift argv past the subcommand name:
-     * argv[0] = program name, argv[1] = subcommand
-     * Pass argv+2 with argc-2 to the subcommand handler.
+    /* Shift argv so the subcommand name becomes argv[0] (program name
+     * slot that getopt_long skips).  argv[1..] are the real arguments.
      */
-    int sub_argc = argc - 2;
-    char **sub_argv = argv + 2;
+    int sub_argc = argc - 1;
+    char **sub_argv = argv + 1;
 
     if (strcmp(cmd, "launch") == 0) {
         return cmd_launch(sub_argc, sub_argv);

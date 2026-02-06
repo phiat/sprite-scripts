@@ -26,19 +26,20 @@ static void watch_usage(void)
 
 int cmd_watch(int argc, char **argv)
 {
-    if (argc < 1) {
+    /* argv[0] is the subcommand name; real args start at argv[1] */
+    if (argc < 2) {
         watch_usage();
         return 1;
     }
 
-    const char *sprite = argv[0];
+    const char *sprite = argv[1];
     char task_id[256] = {0};
     int poll_interval = 30;
 
-    if (argc >= 2)
-        snprintf(task_id, sizeof(task_id), "%s", argv[1]);
-    if (argc >= 3) {
-        poll_interval = atoi(argv[2]);
+    if (argc >= 3)
+        snprintf(task_id, sizeof(task_id), "%s", argv[2]);
+    if (argc >= 4) {
+        poll_interval = atoi(argv[3]);
         if (poll_interval <= 0)
             poll_interval = 30;
     }
