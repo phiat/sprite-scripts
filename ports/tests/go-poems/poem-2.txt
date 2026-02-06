@@ -1,0 +1,11 @@
+A programmer named Rob from Google's crew
+Built a language that's fresh and new
+With goroutines so fast
+And channels that last
+The old C++ code bid adieu
+
+But gofmt makes all code look the same
+While error handling remains quite a game
+You must check nil, nil, err
+Which might make programmers swear
+Yet Go still powers systems with flame

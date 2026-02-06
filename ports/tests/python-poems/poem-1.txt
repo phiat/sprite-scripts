@@ -1,0 +1,3 @@
+Clean syntax flows
+Indentation guides the way
+Python makes code sing

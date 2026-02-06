@@ -1,0 +1,3 @@
+Simple and fast,
+Goroutines dance in parallel,
+Go builds all things right.

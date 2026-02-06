@@ -18,20 +18,20 @@ End-to-end tests of sprite-tool ports. Each test launches a real sprite on [spri
 
 ## Plan Template
 
-Each test uses a language-specific poem plan. Example (`c-poem-plan.md`):
+Each test uses a language-specific poem plan generated from this template (replacing `{LANGUAGE}`):
 
 ```markdown
-# Plan: Write Three Poems About C
+# Plan: Write Three Poems About {LANGUAGE}
 
-Write three short poems about the **C programming language** and save them as text files.
+Write three short poems about the **{LANGUAGE} programming language** and save them as text files.
 
 ## Requirements
 
-1. **poem-1.txt** — A haiku-style poem (4-8 lines) about C
-2. **poem-2.txt** — A limerick (2 stanzas) about C's quirks (pointers, manual memory, segfaults, etc.)
-3. **poem-3.txt** — A free-verse ode (8-12 lines) celebrating what makes C unique
+1. **poem-1.txt** — A haiku-style poem (4-8 lines) about {LANGUAGE}
+2. **poem-2.txt** — A limerick (2 stanzas) about {LANGUAGE}'s quirks
+3. **poem-3.txt** — A free-verse ode (8-12 lines) celebrating what makes {LANGUAGE} unique
 
-Each poem must specifically reference C, its features, history, or ecosystem.
+Each poem must specifically reference {LANGUAGE}, its features, history, or ecosystem.
 
 ## Completion
 
@@ -48,40 +48,27 @@ When all three poems are written, create a file called **done.txt** listing what
 | C++ | cpp-poems | 3/3 | Pass |
 | C# | csharp-poems | 3/3 | Pass |
 | F# | fsharp-poems | 3/3 | Pass |
+| Go | go-poems | 3/3 | Pass |
+| Rust | rust-poems | 3/3 | Pass |
+| Python | python-poems | 3/3 | Pass |
+| Ruby | ruby-poems | 3/3 | Pass |
 
 ## Directory Structure
 
 ```
-port-tests/
+ports/tests/
 ├── README.md
-├── c-poem-plan.md
-├── cpp-poem-plan.md
-├── csharp-poem-plan.md
-├── deno-poem-plan.md
-├── fsharp-poem-plan.md
-├── zig-poem-plan.md
 ├── c-poems/
-│   ├── poem-1.txt
-│   ├── poem-2.txt
-│   └── poem-3.txt
 ├── cpp-poems/
-│   ├── poem-1.txt
-│   ├── poem-2.txt
-│   └── poem-3.txt
 ├── csharp-poems/
-│   ├── poem-1.txt
-│   ├── poem-2.txt
-│   └── poem-3.txt
 ├── deno-poems/
-│   ├── poem-1.txt
-│   ├── poem-2.txt
-│   └── poem-3.txt
 ├── fsharp-poems/
-│   ├── poem-1.txt
-│   ├── poem-2.txt
-│   └── poem-3.txt
+├── go-poems/
+├── python-poems/
+├── ruby-poems/
+├── rust-poems/
 └── zig-poems/
-    ├── poem-1.txt
+    ├── poem-1.txt        # Each contains 3 poems
     ├── poem-2.txt
     └── poem-3.txt
 ```

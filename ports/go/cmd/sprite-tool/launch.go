@@ -248,10 +248,16 @@ func launchAgent(client *sprite.Client, cfg *config.Config, planFile string) err
 			agentCmd += " --plan /home/sprite/plan.md"
 		}
 	case "opencode":
-		agentCmd = "opencode"
+		model := cfg.Model
+		if model == "" {
+			model = "opencode/big-pickle"
+		}
 		if planFile != "" {
-			// opencode reads plan from file
-			agentCmd += " --plan /home/sprite/plan.md"
+			agentCmd = fmt.Sprintf(
+				"set -a && source /home/sprite/.env 2>/dev/null && set +a && ~/.opencode/bin/opencode run -m %s 'read plan.md and complete the plan please'",
+				model)
+		} else {
+			agentCmd = fmt.Sprintf("~/.opencode/bin/opencode -m %s", model)
 		}
 	}
 

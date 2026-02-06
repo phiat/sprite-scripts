@@ -1,0 +1,11 @@
+There once was a language called Ruby,
+Whose code flowed like honey so lovely.
+With blocks and with yield,
+It made coding a thrill,
+And gems made the journey quite comfy.
+
+Its objects all danced with such grace,
+No types stood in memory's space.
+Monkey-patching brought fun,
+Until morning was done,
+In this dynamic, flexible place.

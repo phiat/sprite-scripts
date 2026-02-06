@@ -1,0 +1,6 @@
+Created three Ruby poems:
+- poem-1.txt (haiku-style)
+- poem-2.txt (limerick, 2 stanzas)
+- poem-3.txt (free-verse ode)
+
+All poems reference Ruby programming language features and ecosystem.

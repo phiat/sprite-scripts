@@ -1,0 +1,11 @@
+A programmer named Guido once said,
+"Let's make code flow right from the head!"
+With spaces not tabs,
+No curly-brab cabs,
+And duck typing fills souls with dread.
+
+The GIL locks threads one at a time,
+While pip installs packages divine.
+But who really cares?
+When Python declares,
+"Readability counts, and it's fine!"

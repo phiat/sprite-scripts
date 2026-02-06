@@ -1,0 +1,14 @@
+Go, you are simplicity reborn,
+No classes, no inheritance to scorn.
+Just structs and interfaces clean,
+The codebase pristine, unseen.
+
+Your goroutines dance like morning light,
+Through channels pass, day and night.
+Static linking, one binary strong,
+Deployment is never wrong.
+
+Born from the minds at Google's hall,
+You answer the systems programming call.
+Simple, fast, and true,
+Go, we build our world with you.

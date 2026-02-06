@@ -1,0 +1,11 @@
+There once was a language called Rust,
+Whose memory safety was a must.
+The borrow checker would fight,
+With all of its might,
+Making lifetimes and ownership just.
+
+Cargo builds with such grace and speed,
+While threads run without fear or greed.
+The compiler knows best,
+Putting errors to rest,
+For safe concurrent code we succeed!
