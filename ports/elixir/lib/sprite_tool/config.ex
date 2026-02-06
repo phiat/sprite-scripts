@@ -40,32 +40,7 @@ defmodule SpriteTool.Config do
       path
       |> File.read!()
       |> String.split("\n")
-      |> Enum.reduce(%{}, fn line, acc ->
-        line = String.trim(line)
-
-        cond do
-          line == "" ->
-            acc
-
-          String.starts_with?(line, "#") ->
-            acc
-
-          not String.contains?(line, "=") ->
-            acc
-
-          true ->
-            [key | rest] = String.split(line, "=", parts: 2)
-            key = String.trim(key)
-            value = rest |> List.first("") |> String.trim() |> strip_quotes()
-
-            # Set in environment (don't overwrite existing)
-            if System.get_env(key) == nil do
-              System.put_env(key, value)
-            end
-
-            Map.put(acc, key, value)
-        end
-      end)
+      |> Enum.reduce(%{}, &parse_env_line/2)
     else
       %{}
     end
@@ -76,51 +51,45 @@ defmodule SpriteTool.Config do
   """
   @spec load() :: t()
   def load do
-    env_file = System.get_env("ENV_FILE") || "./.env"
-
-    # Parse .env file first (populates env for keys not already set)
+    env_file = env_or("ENV_FILE", "./.env")
     parse_env_file(env_file)
 
-    # SPRITE_TOKEN with SPRITES_TOKEN fallback
-    sprite_token = System.get_env("SPRITE_TOKEN") || System.get_env("SPRITES_TOKEN") || ""
-
-    # Agent
-    agent = System.get_env("AGENT") || "opencode"
-
-    # Claude auth
-    claude_auth = System.get_env("CLAUDE_AUTH") || "subscription"
-
-    # Anthropic API key
-    anthropic_api_key = System.get_env("ANTHROPIC_API_KEY") || ""
-
-    # Model
-    model = System.get_env("MODEL") || ""
-
-    # Checkpoint interval
-    interval_str = System.get_env("CHECKPOINT_INTERVAL") || "300"
-
-    checkpoint_interval =
-      case Integer.parse(interval_str) do
-        {n, ""} ->
-          n
-
-        _ ->
-          IO.puts(:stderr, "Error: invalid CHECKPOINT_INTERVAL #{inspect(interval_str)} (must be integer)")
-          System.halt(1)
-      end
-
     %__MODULE__{
-      sprite_token: sprite_token,
-      agent: agent,
-      claude_auth: claude_auth,
-      anthropic_api_key: anthropic_api_key,
-      model: model,
-      checkpoint_interval: checkpoint_interval,
+      sprite_token: env_or("SPRITE_TOKEN", env_or("SPRITES_TOKEN", "")),
+      agent: env_or("AGENT", "opencode"),
+      claude_auth: env_or("CLAUDE_AUTH", "subscription"),
+      anthropic_api_key: env_or("ANTHROPIC_API_KEY", ""),
+      model: env_or("MODEL", ""),
+      checkpoint_interval: parse_interval(env_or("CHECKPOINT_INTERVAL", "300")),
       env_file: env_file
     }
   end
 
-  # Strip matching single or double quotes from a value string.
+  defp env_or(key, default), do: System.get_env(key) || default
+
+  defp parse_interval(str) do
+    case Integer.parse(str) do
+      {n, ""} -> n
+      _ ->
+        IO.puts(:stderr, "Error: invalid CHECKPOINT_INTERVAL #{inspect(str)} (must be integer)")
+        System.halt(1)
+    end
+  end
+
+  defp parse_env_line(line, acc) do
+    line = String.trim(line)
+
+    if line == "" or String.starts_with?(line, "#") or not String.contains?(line, "=") do
+      acc
+    else
+      [key | rest] = String.split(line, "=", parts: 2)
+      key = String.trim(key)
+      value = rest |> List.first("") |> String.trim() |> strip_quotes()
+      if System.get_env(key) == nil, do: System.put_env(key, value)
+      Map.put(acc, key, value)
+    end
+  end
+
   defp strip_quotes(value) when byte_size(value) >= 2 do
     first = String.first(value)
     last = String.last(value)

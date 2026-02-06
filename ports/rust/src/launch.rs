@@ -161,7 +161,9 @@ pub fn run(
         }
         "opencode" => {
             println!("Setting up opencode...");
-            sx.sx("[ -x ~/.opencode/bin/opencode ] || curl -fsSL https://opencode.ai/install | bash")?;
+            sx.sx(
+                "[ -x ~/.opencode/bin/opencode ] || curl -fsSL https://opencode.ai/install | bash",
+            )?;
             sx.sx("grep -q 'source.*\\.env' ~/.bashrc 2>/dev/null || echo '[ -f /home/sprite/.env ] && set -a && source /home/sprite/.env && set +a' >> ~/.bashrc")?;
         }
         other => {
@@ -276,10 +278,7 @@ pub fn run(
 /// Background checkpoint loop. Runs `sprite checkpoint create` every `interval` seconds
 /// until `stop` is set to true.
 fn checkpoint_loop(sprite: &str, interval: u64, stop: &AtomicBool) {
-    println!(
-        "Auto-checkpointing every {}s (background thread)",
-        interval
-    );
+    println!("Auto-checkpointing every {}s (background thread)", interval);
     loop {
         // Sleep in 1-second increments to check the stop flag promptly
         for _ in 0..interval {
@@ -309,9 +308,7 @@ fn checkpoint_loop(sprite: &str, interval: u64, stop: &AtomicBool) {
 /// Get a simple HH:MM:SS timestamp without pulling in chrono.
 fn chrono_free_timestamp() -> String {
     // Use the `date` command as a simple cross-platform fallback
-    let output = Command::new("date")
-        .arg("+%H:%M:%S")
-        .output();
+    let output = Command::new("date").arg("+%H:%M:%S").output();
     match output {
         Ok(o) => String::from_utf8_lossy(&o.stdout).trim().to_string(),
         Err(_) => "??:??:??".to_string(),

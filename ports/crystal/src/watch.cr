@@ -80,7 +80,7 @@ module SpriteTool
           # status check failed, continue polling
         end
 
-        sleep poll_interval
+        sleep poll_interval.seconds
       end
     end
 

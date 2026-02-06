@@ -17,9 +17,9 @@ import (
 )
 
 var (
-	launchDryRun      bool
+	launchDryRun       bool
 	launchNoCheckpoint bool
-	launchUploadDirs  []string
+	launchUploadDirs   []string
 )
 
 var launchCmd = &cobra.Command{

@@ -29,10 +29,7 @@ pub fn run(remote_path: String, local_path: String, sprite_name: Option<String>)
 
 /// Check if a remote path is a directory by running a test on the sprite.
 fn check_remote_is_dir(remote_path: &str, sprite_args: &[String]) -> Result<bool> {
-    let bash_cmd = format!(
-        "[ -d '{}' ] && echo dir || echo file",
-        remote_path
-    );
+    let bash_cmd = format!("[ -d '{}' ] && echo dir || echo file", remote_path);
     let mut args = sprite_args.to_vec();
     args.extend(["bash".to_string(), "-c".to_string(), bash_cmd]);
 

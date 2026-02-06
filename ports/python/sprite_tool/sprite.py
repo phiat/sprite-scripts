@@ -1,9 +1,7 @@
 """Subprocess wrapper for the sprite CLI."""
 
-import os
 import shutil
 import subprocess
-import sys
 from pathlib import Path
 from typing import List, Optional
 
@@ -158,7 +156,12 @@ def push_dir(sprite_name: str, src: str, dest: str, dry_run: bool = False) -> No
     )
     sprite_proc = subprocess.Popen(
         [
-            "sprite", "exec", "-s", sprite_name, "bash", "-c",
+            "sprite",
+            "exec",
+            "-s",
+            sprite_name,
+            "bash",
+            "-c",
             f"tar xzf - -C '{dest_parent}'",
         ],
         stdin=tar_proc.stdout,

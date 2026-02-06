@@ -2,7 +2,6 @@
 ## Pull a file or directory from a sprite to the local filesystem.
 
 import os, osproc, strutils
-import sprite
 
 const pullUsage* = """
 Usage: sprite-tool pull <remote-path> <local-path> [sprite-name]

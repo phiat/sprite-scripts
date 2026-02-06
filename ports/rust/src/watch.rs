@@ -96,9 +96,8 @@ fn auto_detect_task(sx: &SpriteExec, sprite_name: &str) -> Result<String> {
 
     // Fallback to first open task
     println!("No critical task found. Falling back to first open task...");
-    let task_id = sx.sx_quiet(
-        "cd /home/sprite && bd list 2>/dev/null | head -1 | awk '{print $1}'",
-    );
+    let task_id =
+        sx.sx_quiet("cd /home/sprite && bd list 2>/dev/null | head -1 | awk '{print $1}'");
     if !task_id.is_empty() {
         println!("Tracking task: {}", task_id);
         return Ok(task_id);
@@ -114,9 +113,7 @@ fn auto_detect_task(sx: &SpriteExec, sprite_name: &str) -> Result<String> {
 
 /// Get a simple HH:MM:SS timestamp.
 fn get_time() -> String {
-    let output = std::process::Command::new("date")
-        .arg("+%H:%M:%S")
-        .output();
+    let output = std::process::Command::new("date").arg("+%H:%M:%S").output();
     match output {
         Ok(o) => String::from_utf8_lossy(&o.stdout).trim().to_string(),
         Err(_) => "??:??:??".to_string(),

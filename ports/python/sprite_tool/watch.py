@@ -74,7 +74,9 @@ def run(args):
             )
         if not task_id:
             print(f"ERROR: No beads tasks found on sprite '{sprite_name}'")
-            print(f"Specify a task ID manually: sprite-tool watch {sprite_name} <task-id>")
+            print(
+                f"Specify a task ID manually: sprite-tool watch {sprite_name} <task-id>"
+            )
             sys.exit(1)
         print(f"Tracking task: {task_id}")
 
@@ -116,7 +118,9 @@ def run(args):
             )
             if status:
                 status_lower = status.lower()
-                if any(word in status_lower for word in ("closed", "done", "completed")):
+                if any(
+                    word in status_lower for word in ("closed", "done", "completed")
+                ):
                     print("==========================================")
                     print("PROJECT COMPLETE")
                     print("==========================================")

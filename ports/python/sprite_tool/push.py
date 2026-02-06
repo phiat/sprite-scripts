@@ -48,7 +48,8 @@ def run(args):
             ["sprite", "exec"]
             + sprite_args
             + [
-                "bash", "-c",
+                "bash",
+                "-c",
                 f"mkdir -p '{remote_path}' && tar xzf - -C '{remote_path}' --strip-components=1",
             ]
         )
@@ -71,7 +72,8 @@ def run(args):
             ["sprite", "exec"]
             + sprite_args
             + [
-                "bash", "-c",
+                "bash",
+                "-c",
                 f"mkdir -p '{remote_dir}' && cat > '{remote_path}'",
             ]
         )

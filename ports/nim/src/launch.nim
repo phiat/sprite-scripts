@@ -1,7 +1,7 @@
 ## launch.nim - sprite-tool launch subcommand
 ## Creates and configures a sprite with a coding agent, git, beads, and optional checkpointing.
 
-import os, osproc, strutils, times, locks
+import os, strutils, times, locks
 import config, sprite
 
 const launchUsage* = """

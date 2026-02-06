@@ -80,7 +80,9 @@ fn push_directory(local_path: &str, remote_path: &str, sprite_args: &[String]) -
         .join()
         .map_err(|_| anyhow::anyhow!("Copy thread panicked"))??;
 
-    let tar_output = tar_proc.wait_with_output().context("Failed to wait for tar")?;
+    let tar_output = tar_proc
+        .wait_with_output()
+        .context("Failed to wait for tar")?;
     if !tar_output.status.success() {
         let stderr = String::from_utf8_lossy(&tar_output.stderr);
         bail!("Local tar failed: {}", stderr);

@@ -14,6 +14,10 @@
 
 namespace fs = std::filesystem;
 
+// Wrapper to suppress GCC's warn_unused_result on std::system().
+static inline void run(const char* cmd) { if (std::system(cmd)) {} }
+static inline void run(const std::string& cmd) { run(cmd.c_str()); }
+
 static void print_usage() {
     std::cout <<
 R"(Usage: sprite-tool launch [options] <sprite-name> [plan-file]
@@ -64,7 +68,7 @@ int cmd_launch(bool dry_run, bool no_checkpoint,
             std::cout << "  [dry-run] Would install sprite CLI\n";
         } else {
             std::cout << "Installing sprite CLI...\n";
-            std::system("curl -fsSL https://sprites.dev/install.sh | sh");
+            run("curl -fsSL https://sprites.dev/install.sh | sh");
             // Add to PATH
             std::string home = env_or("HOME", "");
             if (!home.empty()) {
@@ -81,12 +85,12 @@ int cmd_launch(bool dry_run, bool no_checkpoint,
         std::cout << "Authenticating sprite with token...\n";
         if (!dry_run) {
             std::string cmd = "sprite auth setup --token '" + shell_escape(cfg.sprite_token) + "'";
-            std::system(cmd.c_str());
+            run(cmd.c_str());
         }
     } else {
         std::cout << "No SPRITE_TOKEN set. Running interactive login...\n";
         if (!dry_run) {
-            std::system("sprite login");
+            run("sprite login");
         }
     }
 
@@ -102,7 +106,7 @@ int cmd_launch(bool dry_run, bool no_checkpoint,
         } else {
             std::cout << "Creating sprite: " << sprite_name << "\n";
             std::string cmd = "sprite create -skip-console '" + shell_escape(sprite_name) + "'";
-            std::system(cmd.c_str());
+            run(cmd.c_str());
         }
     }
 
@@ -270,7 +274,7 @@ int cmd_launch(bool dry_run, bool no_checkpoint,
     } else {
         std::cout << "Opening console...\n";
         std::string cmd = "sprite console -s '" + shell_escape(sprite_name) + "'";
-        std::system(cmd.c_str());
+        run(cmd.c_str());
     }
 
     return 0;

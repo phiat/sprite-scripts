@@ -2,7 +2,6 @@
 ## Push a local file or directory to a sprite.
 
 import os, osproc, strutils
-import sprite
 
 const pushUsage* = """
 Usage: sprite-tool push <local-path> <remote-path> [sprite-name]

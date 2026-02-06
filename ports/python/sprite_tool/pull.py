@@ -69,11 +69,7 @@ def run(args):
         local.parent.mkdir(parents=True, exist_ok=True)
 
         # sprite exec ... cat REMOTE > local
-        sprite_cmd = (
-            ["sprite", "exec"]
-            + sprite_args
-            + ["cat", remote_path]
-        )
+        sprite_cmd = ["sprite", "exec"] + sprite_args + ["cat", remote_path]
         with open(local_path, "wb") as f:
             result = subprocess.run(sprite_cmd, stdout=f)
             if result.returncode != 0:
