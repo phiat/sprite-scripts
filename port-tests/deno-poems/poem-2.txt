@@ -1,0 +1,5 @@
+A dinosaur named Deno so grand,
+With permissions right in your hand,
+No package.json mess,
+Just URL imports, I guess,
+And node_modules vanished from land!

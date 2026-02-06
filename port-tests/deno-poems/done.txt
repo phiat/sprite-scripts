@@ -1,0 +1,6 @@
+All poems written.
+
+Files created:
+- poem-1.txt (haiku-style tribute)
+- poem-2.txt (limerick about Deno's quirks)
+- poem-3.txt (free-verse ode to Deno/TypeScript)

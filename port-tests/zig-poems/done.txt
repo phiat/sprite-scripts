@@ -1,0 +1,6 @@
+All poems written.
+
+Files created:
+- poem-1.txt (haiku-style tribute to Zig)
+- poem-2.txt (limerick about Zig's quirks)
+- poem-3.txt (free-verse ode celebrating Zig's uniqueness)

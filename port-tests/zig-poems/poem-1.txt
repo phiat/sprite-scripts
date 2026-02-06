@@ -1,0 +1,9 @@
+Comptime magic, compile-time dreams
+Zig builds fast, or so it seems
+No hidden flow, pure and clean
+Error unions, a coded stream
+
+Memory managed by hand alone
+C interop makes it well known
+Safety first, yet performance shown
+Zig's philosophy, fully grown

@@ -1,0 +1,4 @@
+TypeScript flows with grace,
+Deno runs with safe embrace,
+No node_modules to chase,
+Just clean code in place.

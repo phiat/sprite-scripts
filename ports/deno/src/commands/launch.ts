@@ -327,12 +327,14 @@ export async function launch(args: string[]): Promise<void> {
       sx(
         spriteName,
         `cd /home/sprite && claude ${modelFlag}-p 'read plan.md and complete the plan please'`,
+        { ignoreError: true },
       );
     } else if (cfg.agent === "opencode") {
       const ocModel = cfg.model || "opencode/big-pickle";
       sx(
         spriteName,
         `set -a && source /home/sprite/.env 2>/dev/null && set +a && cd /home/sprite && ~/.opencode/bin/opencode run -m ${ocModel} 'read plan.md and complete the plan please'`,
+        { ignoreError: true },
       );
     }
 

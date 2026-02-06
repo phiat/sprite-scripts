@@ -1,0 +1,11 @@
+In the realm where C and Zig meet,
+There's no hidden control flow to defeat.
+Manual memory, a sacred trust,
+Comptime dreams turning to dust
+Then rebuilt, faster, complete.
+
+Error unions dance in the night,
+No hidden allocations in sight.
+Safety and speed, hand in hand,
+Across all the system land,
+Zig stands proud, shining so bright.

@@ -1,0 +1,11 @@
+A Zig programmer named Sue
+Had comptime dreams, fresh and new
+With error unions so neat
+And no hidden heap treat
+She wrote code that was lightning-fast, too!
+
+No hidden allocations, she swore
+Made her programs cleaner than yore
+Manual memory, she chose
+While C interop arose
+Her Zig code ran faster than before!
