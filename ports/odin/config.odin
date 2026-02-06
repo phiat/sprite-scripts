@@ -1,5 +1,6 @@
 package main
 
+import "core:fmt"
 import "core:os"
 import "core:strings"
 import "core:strconv"
@@ -41,6 +42,8 @@ build_config :: proc() -> Config {
         val, ok := strconv.parse_int(interval_str)
         if ok {
             cfg.checkpoint_interval = val
+        } else {
+            fmt.eprintf("WARNING: Invalid CHECKPOINT_INTERVAL '%s', using default %d\n", interval_str, cfg.checkpoint_interval)
         }
     }
 

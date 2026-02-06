@@ -1,0 +1,14 @@
+O Common Lisp, you ancient soul of code,
+Where symbols dance and parentheses embrace.
+Your heart beats strong with lambda functions pure,
+Your macros bend the world to their design.
+
+The REPL whispers secrets of the machine,
+While CAR and CDR traverse lists with grace.
+You gave us CLOS, your object-oriented dream,
+Yet kept your functional and simple face.
+
+Decades have passed since MIT first saw your light,
+Yet still you stand unbroken, proud, and free.
+No language matches your transcendent might,
+In code itself, you've set the spirit free.

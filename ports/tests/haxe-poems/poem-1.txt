@@ -1,0 +1,3 @@
+Cross-platform code
+Haxe compiles everywhere
+One language, many targets

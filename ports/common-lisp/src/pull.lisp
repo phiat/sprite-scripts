@@ -40,14 +40,10 @@
             (format t "Pulling directory: ~A -> ~A~%" remote-path local-path)
             (ensure-local-directory local-path)
             ;; sprite exec ... tar czf - -C REMOTE . | tar xzf - -C LOCAL
-            (let ((sprite-cmd-parts (append (list "sprite" "exec")
-                                            sprite-args
-                                            (list "tar" "czf" "-" "-C" remote-path "."))))
-              (uiop:run-program
-               (format nil "~{~A ~} | tar xzf - -C '~A'"
-                       (mapcar (lambda (s) (format nil "'~A'" s)) sprite-cmd-parts)
-                       local-path)
-               :output t :error-output t :ignore-error-status nil)))
+            (uiop:run-program
+             (format nil "sprite exec ~{~A ~} tar czf - -C '~A' . | tar xzf - -C '~A'"
+                     sprite-args remote-path local-path)
+             :output t :error-output t :ignore-error-status nil))
 
           ;; Pull file
           (progn

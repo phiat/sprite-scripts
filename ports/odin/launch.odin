@@ -175,10 +175,10 @@ cmd_launch :: proc(args: []string) {
 
     // 7. Setup git + beads
     fmt.println("Initializing git...")
-    sx(sprite_name, "cd /home/sprite && git init -b main 2>/dev/null || true", dry_run)
+    sx(sprite_name, "cd /home/sprite && git init -b main && git add -A && git commit -m 'initial' --allow-empty 2>/dev/null || true", dry_run)
 
     fmt.println("Installing beads...")
-    sx(sprite_name, "curl -fsSL https://raw.githubusercontent.com/steveyegge/beads/main/scripts/install.sh | bash", dry_run)
+    sx(sprite_name, "command -v bd >/dev/null 2>&1 || curl -fsSL https://raw.githubusercontent.com/steveyegge/beads/main/scripts/install.sh | bash", dry_run)
 
     // 8. Install and auth coding agent
     if cfg.agent == "claude" {

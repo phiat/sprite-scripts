@@ -22,8 +22,13 @@ run_cmd :: proc(cmd: string) -> i32 {
     return libc.system(c_cmd)
 }
 
-// Run a shell command and capture its stdout via popen().
+// Maximum bytes to capture from a subprocess (1 MB safety limit).
+MAX_CAPTURE :: 1024 * 1024
+
+// Run a shell command and capture its stdout via popen/fread.
 // Returns the captured output as a string, or "" on failure.
+// Uses fread (not fgets) for reliable EOF detection, and caps
+// total output at MAX_CAPTURE bytes to prevent unbounded growth.
 run_capture :: proc(cmd: string) -> string {
     c_cmd := strings.clone_to_cstring(cmd)
     fp := _popen(c_cmd, "r")
@@ -33,15 +38,15 @@ run_capture :: proc(cmd: string) -> string {
 
     buf: [4096]u8
     result := strings.builder_make()
+    total := 0
 
-    for {
-        ret := libc.fgets(raw_data(&buf), 4096, fp)
-        if ret == nil {
+    for total < MAX_CAPTURE {
+        n := int(libc.fread(raw_data(&buf), 1, len(buf), fp))
+        if n == 0 {
             break
         }
-        // Convert the C string in buf to an Odin string
-        chunk := string(cstring(raw_data(&buf)))
-        strings.write_string(&result, chunk)
+        strings.write_bytes(&result, buf[:n])
+        total += n
     }
 
     _pclose(fp)

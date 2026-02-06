@@ -53,15 +53,10 @@
                (base (car (last (pathname-directory src)))))
           (format t "Pushing directory: ~A -> ~A~%" local-path remote-path)
           ;; tar czf - -C parent base | sprite exec ... bash -c "mkdir -p DEST && tar xzf - -C DEST --strip-components=1"
-          (let ((sprite-cmd-parts (append (list "sprite" "exec")
-                                          sprite-args
-                                          (list "bash" "-c"
-                                                (format nil "mkdir -p '~A' && tar xzf - -C '~A' --strip-components=1"
-                                                        remote-path remote-path)))))
+          (let ((sprite-args-joined (format nil "~{~A ~}" sprite-args)))
             (uiop:run-program
-             (format nil "tar czf - -C '~A' '~A' | ~{~A ~}"
-                     parent base
-                     (mapcar (lambda (s) (format nil "'~A'" s)) sprite-cmd-parts))
+             (format nil "tar czf - -C '~A' '~A' | sprite exec ~Abash -c \"mkdir -p '~A' && tar xzf - -C '~A' --strip-components=1\""
+                     parent base sprite-args-joined remote-path remote-path)
              :output t :error-output t :ignore-error-status nil)))
 
         ;; Push file

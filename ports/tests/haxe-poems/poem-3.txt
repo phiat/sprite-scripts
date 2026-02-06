@@ -1,0 +1,14 @@
+Ode to Haxe, the chameleon of code,
+You speak many tongues yet remain one soul.
+From Neko to JavaScript, C++ to PHP,
+You bridge platforms where others cannot be.
+
+Your type system dances with static grace,
+While your macros bend time and space.
+Heaps of Haxe, the community strong,
+Where open source hearts belong.
+
+Born in France, now global in reach,
+You teach us that code need not preach
+To a single platform, but can roam free,
+Across devices, for all to see.

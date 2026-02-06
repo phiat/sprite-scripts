@@ -38,37 +38,4 @@ Each poem must specifically reference {LANGUAGE}, its features, history, or ecos
 When all three poems are written, create a file called **done.txt** listing what was created.
 ```
 
-## Test Results
-
-| Port | Sprite Name | Poems Written | Status |
-|------|-------------|---------------|--------|
-| Deno/TypeScript | deno-poems | 3/3 | Pass |
-| Zig | zig-poems | 3/3 | Pass |
-| C | c-poems | 3/3 | Pass |
-| C++ | cpp-poems | 3/3 | Pass |
-| C# | csharp-poems | 3/3 | Pass |
-| F# | fsharp-poems | 3/3 | Pass |
-| Go | go-poems | 3/3 | Pass |
-| Rust | rust-poems | 3/3 | Pass |
-| Python | python-poems | 3/3 | Pass |
-| Ruby | ruby-poems | 3/3 | Pass |
-
-## Directory Structure
-
-```
-ports/tests/
-├── README.md
-├── c-poems/
-├── cpp-poems/
-├── csharp-poems/
-├── deno-poems/
-├── fsharp-poems/
-├── go-poems/
-├── python-poems/
-├── ruby-poems/
-├── rust-poems/
-└── zig-poems/
-    ├── poem-1.txt        # Each contains 3 poems
-    ├── poem-2.txt
-    └── poem-3.txt
-```
+Each `<language>-poems/` subdirectory contains the output from a successful test run (poem-1.txt, poem-2.txt, poem-3.txt, and optionally done.txt).

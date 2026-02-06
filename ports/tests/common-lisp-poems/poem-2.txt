@@ -1,0 +1,11 @@
+There once was a language called Lisp,
+Whose parenthetical style made some gasp,
+But with macros so grand,
+It could twist and command,
+Making new syntax right there on the spot.
+
+The REPL would just dance and reply,
+As coders would laugh and would sigh,
+With defun and let,
+They'd solve problems set,
+In a way that would make other languages cry.

@@ -28,8 +28,11 @@ class Sprite {
         var args = ["exec", "-s", spriteName, "bash", "-c", cmd];
         var proc = new Process("sprite", args);
         var output = proc.stdout.readAll().toString();
-        proc.exitCode(); // wait for completion
+        var ec = proc.exitCode();
         proc.close();
+        if (ec != 0) {
+            Sys.println("Warning: command exited with code " + ec);
+        }
         return StringTools.trim(output);
     }
 
@@ -108,7 +111,7 @@ class Sprite {
         var baseName = basename(localPath);
         var remoteParent = dirname(remotePath);
         // Use shell pipeline: tar on local | sprite exec tar on remote
-        Sys.command("bash", ["-c", 'tar czf - -C \'$parentDir\' \'$baseName\' | sprite exec -s \'$spriteName\' bash -c "tar xzf - -C \'$remoteParent\'"']);
+        Sys.command("bash", ["-c", 'tar czf - -C \'$parentDir\' \'$baseName\' | sprite exec -s \'$spriteName\' bash -c "tar xzf - -C \'$remoteParent\' --strip-components=1"']);
     }
 
     /**

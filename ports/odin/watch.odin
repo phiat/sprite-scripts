@@ -25,7 +25,7 @@ cmd_watch :: proc(args: []string) {
     if len(args) >= 2 {
         task_id = args[1]
     }
-    poll_interval := 30
+    poll_interval := 5
     if len(args) >= 3 {
         val, ok := strconv.parse_int(args[2])
         if ok {

@@ -1,0 +1,11 @@
+There once was a language called Haxe,
+That compiled in so many ways.
+To JavaScript, C++, or Flash,
+It would dash with a crash,
+And saved developers countless long days.
+
+Now Haxe has its quirks, it is true,
+With syntax that's fresh and quite new.
+The macros are powerful,
+The conditional logic is wonderful,
+Making cross-platform dreams finally come true.

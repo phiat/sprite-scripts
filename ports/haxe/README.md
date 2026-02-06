@@ -5,7 +5,7 @@ Port of [sprite-scripts](../../README.md) as a single CLI with subcommands: `lau
 ## Prerequisites
 
 - Haxe >= 4.3
-- HashLink
+- Neko
 
 ## Build
 
@@ -16,7 +16,7 @@ haxe build.hxml
 ## Run
 
 ```sh
-hl sprite-tool.hl launch my-sprite plan.md
+neko sprite-tool.n launch my-sprite plan.md
 ```
 
 ## Project structure
