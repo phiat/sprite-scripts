@@ -195,6 +195,57 @@ Use `sprite-watch` from your host to poll the agent's progress via beads.
 - For OpenCode agent: nothing (free models available), or API keys for premium models
 - For Claude agent: Claude subscription or Anthropic API key
 
+## Language Ports
+
+All four scripts have been ported to **27 languages** as a unified `sprite-tool` binary/script with subcommands (`launch`, `push`, `pull`, `watch`). Each port lives under `ports/<language>/` and shells out to the `sprite` CLI.
+
+The entire porting effort — all 27 languages — took **less than 1 hour** using Claude Code with parallel agents.
+
+![Porting session part 1](porting-1.png)
+![Porting session part 2](porting-2.png)
+
+### Compiled Languages
+
+| Language | Directory | Build |
+|----------|-----------|-------|
+| Rust | `ports/rust/` | `cargo build --release` |
+| Go | `ports/go/` | `go build -o sprite-tool ./cmd/sprite-tool` |
+| C | `ports/c/` | `make` |
+| C++ | `ports/cpp/` | `cmake -B build && cmake --build build` |
+| Zig | `ports/zig/` | `zig build -Doptimize=ReleaseSafe` |
+| D | `ports/d/` | `dub build` |
+| Nim | `ports/nim/` | `nim c -d:release src/sprite_tool.nim` |
+| Crystal | `ports/crystal/` | `crystal build src/sprite_tool.cr` |
+| Odin | `ports/odin/` | `odin build src -o:speed` |
+| Ada | `ports/ada/` | `gprbuild -P sprite_tool.gpr` |
+| Swift | `ports/swift/` | `swift build -c release` |
+| Haxe | `ports/haxe/` | `haxe build.hxml` |
+| Mojo | `ports/mojo/` | `mojo build src/main.mojo` |
+
+### JVM/BEAM/Managed Languages
+
+| Language | Directory | Build/Run |
+|----------|-----------|-----------|
+| Clojure | `ports/clojure/` | `clj -M -m sprite-tool.core` |
+| Elixir | `ports/elixir/` | `mix escript.build` |
+| Gleam | `ports/gleam/` | `gleam build` |
+| Haskell | `ports/haskell/` | `cabal build` |
+| OCaml | `ports/ocaml/` | `dune build` |
+| C# | `ports/csharp/` | `dotnet build` |
+| F# | `ports/fsharp/` | `dotnet build` |
+
+### Scripting Languages
+
+| Language | Directory | Run |
+|----------|-----------|-----|
+| Python | `ports/python/` | `python -m sprite_tool` |
+| Ruby | `ports/ruby/` | `ruby bin/sprite-tool` |
+| Perl | `ports/perl/` | `perl bin/sprite-tool` |
+| Lua | `ports/lua/` | `lua sprite-tool.lua` |
+| Deno/TypeScript | `ports/deno/` | `deno run --allow-all src/main.ts` |
+| Common Lisp | `ports/common-lisp/` | `sbcl --script sprite-tool.lisp` |
+| Forth | `ports/forth/` | `gforth sprite-tool.fs` |
+
 ## Links
 
 - [sprites.dev docs](https://docs.sprites.dev/)

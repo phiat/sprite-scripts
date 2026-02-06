@@ -1,0 +1,6 @@
+{
+  "tasks": {
+    "run": "deno run --allow-all src/main.ts",
+    "compile": "deno compile --allow-all --output sprite-tool src/main.ts"
+  }
+}

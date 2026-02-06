@@ -1,0 +1,13 @@
+[package]
+name = "sprite-tool"
+version = "0.1.0"
+edition = "2021"
+description = "CLI tool for managing sprites with coding agents, git, and beads"
+
+[[bin]]
+name = "sprite-tool"
+path = "src/main.rs"
+
+[dependencies]
+clap = { version = "4", features = ["derive"] }
+anyhow = "1"

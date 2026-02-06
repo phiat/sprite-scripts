@@ -1,0 +1,6 @@
+name: sprite-tool
+version: 0.1.0
+targets:
+  sprite-tool:
+    main: src/sprite_tool.cr
+crystal: ">= 1.0.0"

@@ -1,3 +1,68 @@
 .env
 .env.*
 *.credentials.json
+
+# Build artifacts across language ports
+# C/C++
+ports/c/*.o
+ports/c/sprite-tool
+ports/cpp/build/
+
+# .NET (C#/F#)
+ports/csharp/bin/
+ports/csharp/obj/
+ports/fsharp/bin/
+ports/fsharp/obj/
+
+# Gleam
+ports/gleam/build/
+
+# Rust
+ports/rust/target/
+
+# Go
+ports/go/sprite-tool
+
+# Ada
+ports/ada/obj/
+ports/ada/sprite_tool
+
+# Zig
+ports/zig/zig-out/
+ports/zig/zig-cache/
+ports/zig/.zig-cache/
+
+# Nim
+ports/nim/sprite_tool
+ports/nim/src/sprite_tool
+
+# D
+ports/d/sprite-tool
+ports/d/.dub/
+
+# OCaml
+ports/ocaml/_build/
+
+# Haskell
+ports/haskell/dist-newstyle/
+
+# Swift
+ports/swift/.build/
+
+# Elixir
+ports/elixir/_build/
+ports/elixir/deps/
+ports/elixir/sprite_tool
+
+# Crystal
+ports/crystal/sprite_tool
+
+# Odin
+ports/odin/sprite-tool
+
+# Python
+ports/python/__pycache__/
+ports/python/**/__pycache__/
+
+# Mojo
+ports/mojo/__pycache__/

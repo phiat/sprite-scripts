@@ -1,0 +1,7 @@
+{
+    "name": "sprite-tool",
+    "targetType": "executable",
+    "targetName": "sprite-tool",
+    "sourcePaths": ["source"],
+    "mainSourceFile": "source/app.d"
+}

@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=64", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sprite-tool"
+version = "0.1.0"
+description = "Python port of sprite-scripts: manage sprites with coding agents, git, and beads"
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "MIT"}
+
+[project.scripts]
+sprite-tool = "sprite_tool.__main__:main"
+
+[tool.setuptools.packages.find]
+include = ["sprite_tool*"]

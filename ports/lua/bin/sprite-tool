@@ -1,0 +1,53 @@
+#!/usr/bin/env lua
+-- sprite-tool: Lua port of sprite-scripts.
+-- Subcommands: launch, push, pull, watch
+
+-- Set up package.path to find lib/ modules relative to this script
+local script_dir = arg[0]:match("(.*/)")  or "./"
+package.path = script_dir .. "../lib/?.lua;" .. package.path
+
+local launch = require("launch")
+local push   = require("push")
+local pull   = require("pull")
+local watch  = require("watch")
+
+local function usage()
+    print([[Usage: sprite-tool <command> [args...]
+
+Commands:
+  launch    Create and configure a sprite with coding agent, git, beads
+  push      Push local file or directory to a sprite
+  pull      Pull file or directory from a sprite
+  watch     Poll a sprite's beads tracker task for progress
+
+Run 'sprite-tool <command> --help' for command-specific help.]])
+    os.exit(1)
+end
+
+-- Need at least a subcommand
+if #arg < 1 then
+    usage()
+end
+
+local command = arg[1]
+
+-- Build subcommand args (everything after the subcommand)
+local sub_args = {}
+for i = 2, #arg do
+    sub_args[#sub_args + 1] = arg[i]
+end
+
+if command == "launch" then
+    os.exit(launch.run(sub_args))
+elseif command == "push" then
+    os.exit(push.run(sub_args))
+elseif command == "pull" then
+    os.exit(pull.run(sub_args))
+elseif command == "watch" then
+    os.exit(watch.run(sub_args))
+elseif command == "--help" or command == "-h" then
+    usage()
+else
+    io.stderr:write("Unknown command: " .. command .. "\n\n")
+    usage()
+end

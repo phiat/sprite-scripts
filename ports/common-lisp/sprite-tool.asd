@@ -1,0 +1,12 @@
+(defsystem :sprite-tool
+  :version "0.1.0"
+  :serial t
+  :components ((:module "src"
+                :components ((:file "package")
+                             (:file "config")
+                             (:file "sprite")
+                             (:file "push")
+                             (:file "pull")
+                             (:file "watch")
+                             (:file "launch")
+                             (:file "main")))))

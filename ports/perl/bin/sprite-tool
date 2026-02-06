@@ -1,0 +1,55 @@
+#!/usr/bin/env perl
+# sprite-tool: Perl port of sprite-scripts.
+# Subcommands: launch, push, pull, watch
+
+use strict;
+use warnings;
+use File::Basename qw(dirname);
+use Cwd qw(abs_path);
+
+# Add lib/ directory to @INC relative to this script's location
+my $script_dir;
+BEGIN {
+    $script_dir = dirname(abs_path(__FILE__));
+    unshift @INC, "$script_dir/../lib";
+}
+
+use Launch;
+use Push;
+use Pull;
+use Watch;
+
+sub usage {
+    print <<'EOF';
+Usage: sprite-tool <command> [args...]
+
+Commands:
+  launch    Create and configure a sprite with coding agent, git, beads
+  push      Push local file or directory to a sprite
+  pull      Pull file or directory from a sprite
+  watch     Poll a sprite's beads tracker task for progress
+
+Run 'sprite-tool <command> --help' for command-specific help.
+EOF
+    exit 1;
+}
+
+# Need at least a subcommand
+usage() unless @ARGV >= 1;
+
+my $command = shift @ARGV;
+
+if ($command eq 'launch') {
+    exit Launch::run(@ARGV);
+} elsif ($command eq 'push') {
+    exit Push::run(@ARGV);
+} elsif ($command eq 'pull') {
+    exit Pull::run(@ARGV);
+} elsif ($command eq 'watch') {
+    exit Watch::run(@ARGV);
+} elsif ($command eq '--help' || $command eq '-h') {
+    usage();
+} else {
+    print STDERR "Unknown command: $command\n\n";
+    usage();
+}

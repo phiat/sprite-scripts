@@ -1,0 +1,1 @@
+(library (name sprite_tool) (libraries unix threads))
