@@ -131,7 +131,7 @@ func runLaunch(cmd *cobra.Command, args []string) error {
 
 	// Step 8: Install beads
 	fmt.Println("==> Installing beads...")
-	_, err = client.Exec("command -v bd >/dev/null 2>&1 || (curl -fsSL https://beads.dev/install.sh | sh)")
+	_, err = client.Exec("command -v bd >/dev/null 2>&1 || curl -fsSL https://raw.githubusercontent.com/steveyegge/beads/main/scripts/install.sh | bash")
 	if err != nil {
 		return fmt.Errorf("installing beads: %w", err)
 	}
@@ -218,6 +218,11 @@ func setupAgent(client *sprite.Client, cfg *config.Config) error {
 		_, err := client.Exec("command -v opencode >/dev/null 2>&1 || curl -fsSL https://opencode.ai/install | bash")
 		if err != nil {
 			return fmt.Errorf("installing opencode: %w", err)
+		}
+		// Source .env from bashrc
+		_, err = client.Exec("grep -q 'source.*\\.env' ~/.bashrc 2>/dev/null || echo '[ -f /home/sprite/.env ] && set -a && source /home/sprite/.env && set +a' >> ~/.bashrc")
+		if err != nil {
+			return fmt.Errorf("adding .env sourcing to bashrc: %w", err)
 		}
 		// Set API key if provided
 		if cfg.AnthropicAPIKey != "" {
