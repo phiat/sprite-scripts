@@ -96,6 +96,10 @@ AGENT=claude CLAUDE_AUTH=apikey MODEL=sonnet ./sprite-launch my-project plan.md
 # OpenCode with free model (default)
 ./sprite-launch my-project plan.md
 
+# Upload data, tests, or docs alongside the plan
+./sprite-launch --upload ./data my-project plan.md
+./sprite-launch --upload ./data --upload ./tests --upload ./docs my-project plan.md
+
 # OpenCode with Groq
 MODEL=groq/llama-3.3-70b-versatile ./sprite-launch my-project plan.md
 
@@ -117,6 +121,8 @@ CHECKPOINT_INTERVAL=600 ./sprite-launch my-project plan.md
 # Just open a console (no plan)
 ./sprite-launch my-project
 ```
+
+The `--upload` flag pushes a local directory to `/home/sprite/<dirname>` on the sprite. Use it to send data files, test suites, reference docs, or starter code alongside your plan. Repeatable for multiple directories.
 
 ### sprite-push / sprite-pull
 

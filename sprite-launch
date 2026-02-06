@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # sprite-launch: Create and configure a sprite with coding agent, git, beads
-# Usage: sprite-launch [--dry-run] [--no-checkpoint] <sprite-name> [plan-file]
+# Usage: sprite-launch [--dry-run] [--no-checkpoint] [--upload <dir>] <sprite-name> [plan-file]
 
 set -euo pipefail
 
@@ -25,11 +25,13 @@ fi
 
 usage() {
     cat <<'EOF'
-Usage: sprite-launch [--dry-run] [--no-checkpoint] <sprite-name> [plan-file]
+Usage: sprite-launch [options] <sprite-name> [plan-file]
 
 Options:
-  --dry-run          Show what would happen without executing
-  --no-checkpoint    Disable auto-checkpointing
+  --dry-run              Show what would happen without executing
+  --no-checkpoint        Disable auto-checkpointing
+  --upload <dir>         Upload a local directory to /home/sprite/<dirname>
+                         (repeatable: --upload ./data --upload ./tests)
 
 Environment variables:
   ENV_FILE               Path to .env file (default: ./.env)
@@ -48,10 +50,11 @@ Model examples:
 
 Examples:
   ./sprite-launch my-project plan.md
+  ./sprite-launch --upload ./data my-project plan.md
+  ./sprite-launch --upload ./data --upload ./tests my-project plan.md
   ./sprite-launch --dry-run my-project plan.md
   MODEL=groq/llama-3.3-70b-versatile ./sprite-launch dev plan.md
   AGENT=claude MODEL=sonnet ./sprite-launch dev plan.md
-  CHECKPOINT_INTERVAL=600 ./sprite-launch my-project plan.md
 EOF
     exit 1
 }
@@ -61,11 +64,13 @@ EOF
 # ============================================================
 DRY_RUN=false
 CHECKPOINTING=true
+UPLOAD_DIRS=()
 
 while [[ $# -gt 0 && "$1" == --* ]]; do
     case "$1" in
         --dry-run)       DRY_RUN=true; shift ;;
         --no-checkpoint) CHECKPOINTING=false; shift ;;
+        --upload)        shift; UPLOAD_DIRS+=("$1"); shift ;;
         --help|-h)       usage ;;
         *)               echo "Unknown option: $1"; usage ;;
     esac
@@ -97,6 +102,18 @@ push_file() {
     else
         sprite exec -s "$SPRITE" bash -c "mkdir -p '$(dirname "$dest")'"
         sprite exec -s "$SPRITE" bash -c "cat > '$dest'" < "$src"
+    fi
+}
+
+# Push local directory to sprite
+push_dir() {
+    local src="$1" dest="$2"
+    if [[ "$DRY_RUN" == true ]]; then
+        echo "  [dry-run] push dir $src -> sprite:$dest"
+    else
+        sprite exec -s "$SPRITE" bash -c "mkdir -p '$dest'"
+        tar czf - -C "$(dirname "$src")" "$(basename "$src")" | \
+            sprite exec -s "$SPRITE" bash -c "tar xzf - -C '$(dirname "$dest")'"
     fi
 }
 
@@ -185,7 +202,20 @@ if [[ -n "$PLAN_FILE" && -f "$PLAN_FILE" ]]; then
 fi
 
 # ============================================================
-# 6. Setup git + beads
+# 6. Upload directories if provided
+# ============================================================
+for dir in "${UPLOAD_DIRS[@]}"; do
+    if [[ -d "$dir" ]]; then
+        DIRNAME="$(basename "$dir")"
+        echo "Uploading directory: $dir -> /home/sprite/$DIRNAME"
+        push_dir "$dir" "/home/sprite/$DIRNAME"
+    else
+        echo "WARNING: --upload dir '$dir' not found, skipping."
+    fi
+done
+
+# ============================================================
+# 7. Setup git + beads
 # ============================================================
 echo "Initializing git..."
 sx "cd /home/sprite && git init -b main 2>/dev/null || true"
@@ -194,7 +224,7 @@ echo "Installing beads..."
 sx "curl -fsSL https://raw.githubusercontent.com/steveyegge/beads/main/scripts/install.sh | bash"
 
 # ============================================================
-# 7. Install and auth coding agent
+# 8. Install and auth coding agent
 # ============================================================
 if [[ "$AGENT" == "claude" ]]; then
     echo "Setting up claude..."
@@ -229,7 +259,7 @@ else
 fi
 
 # ============================================================
-# 8. Launch agent with plan (or open console)
+# 9. Launch agent with plan (or open console)
 # ============================================================
 echo ""
 echo "=========================================="
