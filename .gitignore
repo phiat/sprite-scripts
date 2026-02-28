@@ -80,3 +80,7 @@ ports/common-lisp/mise.toml
 
 # Test plan files (generated locally from template)
 ports/tests/*-poem-plan.md
+
+# Claude artifacts
+AGENTS.md
+.beads/
